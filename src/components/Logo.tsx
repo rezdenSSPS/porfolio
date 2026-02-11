@@ -10,7 +10,7 @@ interface LogoProps {
 const LIGHT_LOGO_URL = "https://res.cloudinary.com/dg3rfqbvz/image/upload/v1770833911/portfolio/logos/logo-light.png"; // Black text, for light backgrounds
 const DARK_LOGO_URL = "https://res.cloudinary.com/dg3rfqbvz/image/upload/v1770833912/portfolio/logos/logo-dark.png";   // White text, for dark backgrounds
 
-export function Logo({ className = "", height = 40 }: LogoProps) {
+export function Logo({ className = "", height = 120 }: LogoProps) {
   const { theme } = useTheme();
   
   // Use dark logo (white text) when in dark mode, light logo (black text) when in light mode

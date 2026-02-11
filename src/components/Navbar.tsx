@@ -31,7 +31,7 @@ export function Navbar() {
             whileTap={{ scale: 0.95 }}
           >
             <Link to="/" className="flex items-center">
-              <Logo height={32} />
+              <Logo height={120} />
             </Link>
           </motion.div>
 
