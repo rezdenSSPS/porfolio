@@ -1,14 +1,16 @@
 import { motion } from "framer-motion";
 import { Instagram, Twitter, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
+import { Logo } from "./Logo";
 
 const navLinks = [
-  { name: "Domů", href: "#home" },
-  { name: "Projekty", href: "#projects" },
-  { name: "O mně", href: "#about" },
-  { name: "Služby", href: "#services" },
-  { name: "Kontakt", href: "#contact" },
+  { name: "Domů", href: "/" },
+  { name: "Projekty", href: "/projects" },
+  { name: "O mně", href: "/about" },
+  { name: "Služby", href: "/services" },
+  { name: "Kontakt", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -24,29 +26,32 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <motion.a
-            href="#home"
-            className="text-xl font-bold text-foreground tracking-tight"
+          <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Logo
-          </motion.a>
+            <Link to="/" className="flex items-center">
+              <Logo height={32} />
+            </Link>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link, index) => (
-              <motion.a
+              <motion.div
                 key={link.name}
-                href={link.href}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index, duration: 0.5 }}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
                 whileHover={{ y: -2 }}
               >
-                {link.name}
-              </motion.a>
+                <Link
+                  to={link.href}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
+                >
+                  {link.name}
+                </Link>
+              </motion.div>
             ))}
 
             {/* Divider */}
@@ -105,20 +110,23 @@ export function Navbar() {
         >
           <div className="py-4 space-y-4">
             {navLinks.map((link, index) => (
-              <motion.a
+              <motion.div
                 key={link.name}
-                href={link.href}
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ 
                   x: isOpen ? 0 : -20, 
                   opacity: isOpen ? 1 : 0 
                 }}
                 transition={{ delay: 0.1 * index }}
-                className="block text-muted-foreground hover:text-foreground transition-colors"
-                onClick={() => setIsOpen(false)}
               >
-                {link.name}
-              </motion.a>
+                <Link
+                  to={link.href}
+                  className="block text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              </motion.div>
             ))}
             
             {/* Theme Toggle in Mobile */}

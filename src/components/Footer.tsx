@@ -1,15 +1,17 @@
 import { motion } from "framer-motion";
 import { Heart, Instagram, Twitter, Linkedin, Github } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Logo } from "./Logo";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = [
-    { label: "Domů", href: "#home" },
-    { label: "Projekty", href: "#projects" },
-    { label: "O mně", href: "#about" },
-    { label: "Služby", href: "#services" },
-    { label: "Kontakt", href: "#contact" },
+    { label: "Domů", href: "/" },
+    { label: "Projekty", href: "/projects" },
+    { label: "O mně", href: "/about" },
+    { label: "Služby", href: "/services" },
+    { label: "Kontakt", href: "/contact" },
   ];
 
   const socialLinks = [
@@ -25,9 +27,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <a href="#home" className="text-2xl font-bold text-foreground tracking-tight">
-              Logo
-            </a>
+            <Link to="/">
+              <Logo height={48} />
+            </Link>
             <p className="text-muted-foreground mt-4 max-w-sm">
               Tvůrce moderních webových stránek a aplikací. 
               Pomáhám firmám růst v digitálním světě.
@@ -40,12 +42,12 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors text-sm"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

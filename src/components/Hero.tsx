@@ -1,8 +1,32 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
 
 export function Hero() {
+  const navigate = useNavigate();
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleImageClick = () => {
+    navigate('/about');
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (imageContainerRef.current) {
+      const rect = imageContainerRef.current.getBoundingClientRect();
+      setMousePosition({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  };
+
+  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseLeave = () => setIsHovering(false);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -76,32 +100,34 @@ export function Hero() {
               variants={itemVariants}
               className="text-lg text-muted-foreground max-w-md leading-relaxed"
             >
-              Specializuji se na tvorbu moderních a funkčních webových stránek, 
-              které pomáhají firmám růst a zaujmout jejich zákazníky. 
+              Specializuji se na tvorbu moderních a funkčních webových stránek,
+              které pomáhají firmám růst a zaujmout jejich zákazníky.
               Každý projekt je pro mě novou výzvou.
             </motion.p>
 
             {/* CTA Button */}
             <motion.div variants={itemVariants}>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="group border-border bg-transparent text-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 px-8 py-6 text-sm font-semibold tracking-wider"
+              <Link to="/projects">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  ZOBRAZIT PROJEKTY
-                  <motion.span
-                    className="ml-2 inline-block"
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 5 }}
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="group border-border bg-transparent text-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 px-8 py-6 text-sm font-semibold tracking-wider"
                   >
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                  </motion.span>
-                </Button>
-              </motion.div>
+                    ZOBRAZIT PROJEKTY
+                    <motion.span
+                      className="ml-2 inline-block"
+                      initial={{ x: 0 }}
+                      whileHover={{ x: 5 }}
+                    >
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </motion.span>
+                  </Button>
+                </motion.div>
+              </Link>
             </motion.div>
 
             {/* Stats */}
@@ -134,21 +160,42 @@ export function Hero() {
             <div className="relative">
               {/* Background glow effect */}
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 blur-3xl rounded-full scale-150" />
-              
-              {/* Person Image Placeholder */}
+
+              {/* Person Image Placeholder - Now Clickable */}
               <motion.div
-                className="relative z-10 w-full max-w-md aspect-[3/4] rounded-[var(--radius)] overflow-hidden bg-secondary"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.4 }}
+                ref={imageContainerRef}
+                onClick={handleImageClick}
+                onMouseMove={handleMouseMove}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                className="relative z-10 w-full max-w-md aspect-[3/4] rounded-[var(--radius)] overflow-hidden bg-secondary cursor-none"
               >
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop&crop=face"
+                <motion.img
+                  src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1770832163/615768307_1592252328450020_3440170313654590281_n_qas5tj.jpg"
                   alt="Profilová fotografie"
                   className="w-full h-full object-cover"
+                  animate={{ scale: isHovering ? 1.1 : 1 }}
+                  transition={{ duration: 0.4 }}
                 />
-                
+
                 {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+                {/* Custom Cursor - Arrow follows mouse */}
+                <div 
+                  className="absolute pointer-events-none z-20"
+                  style={{
+                    left: mousePosition.x - 24,
+                    top: mousePosition.y - 24,
+                    opacity: isHovering ? 1 : 0,
+                    transform: `scale(${isHovering ? 1 : 0.5})`,
+                    transition: 'opacity 0.15s ease-out, transform 0.15s ease-out',
+                  }}
+                >
+                  <span className="p-3 bg-white text-black rounded-full flex items-center justify-center shadow-lg">
+                    <ArrowUpRight size={20} />
+                  </span>
+                </div>
               </motion.div>
 
               {/* Floating badge */}

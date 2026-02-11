@@ -1,0 +1,4 @@
+# Logo URLs
+
+LIGHT_LOGO_URL=https://res.cloudinary.com/dg3rfqbvz/image/upload/v1770833911/portfolio/logos/logo-light.png
+DARK_LOGO_URL=https://res.cloudinary.com/dg3rfqbvz/image/upload/v1770833912/portfolio/logos/logo-dark.png
