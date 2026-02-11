@@ -144,12 +144,12 @@ export function Navbar() {
                 <Instagram size={20} />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://www.linkedin.com/in/denis-řezníček-151b6a3ab"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground"
               >
-                <Twitter size={20} />
+                <Linkedin size={20} />
               </a>
             </div>
           </div>
