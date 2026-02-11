@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 
 interface ContactFormData {
   name: string;
+  phone: string;
   email: string;
   subject: string;
   message: string;
@@ -146,9 +147,13 @@ const sendOwnerNotification = async (
           <h1 style="margin: 0;">Nová zpráva z portfolia!</h1>
         </div>
         <div class="content">
-          <div class="field">
-            <div class="label">Jméno</div>
+           <div class="field">
+            <div class="label">Jméno a příjmení</div>
             <div class="value">${data.name}</div>
+          </div>
+          <div class="field">
+            <div class="label">Telefon</div>
+            <div class="value"><a href="tel:${data.phone}">${data.phone}</a></div>
           </div>
           <div class="field">
             <div class="label">Email</div>
@@ -185,8 +190,8 @@ const sendOwnerNotification = async (
 
 export const handleContactForm = async (data: ContactFormData) => {
   // Validate required fields
-  if (!data.name || !data.email || !data.subject || !data.message) {
-    throw new Error('Chybí povinné údaje (jméno, email, předmět, zpráva)');
+  if (!data.name || !data.phone || !data.email || !data.subject || !data.message) {
+    throw new Error('Chybí povinné údaje (jméno, telefon, email, předmět, zpráva)');
   }
 
   // Validate email format

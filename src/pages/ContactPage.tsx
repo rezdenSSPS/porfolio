@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 export function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
+    phone: "",
     email: "",
     subject: "",
     message: "",
@@ -33,7 +34,7 @@ export function ContactPage() {
 
       if (result.success) {
         setFormStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setFormData({ name: '', phone: '', email: '', subject: '', message: '' });
       } else {
         setFormStatus('error');
         setFormError(result.error || 'Nepodařilo se odeslat zprávu');
@@ -169,25 +170,41 @@ export function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">
+                      Jméno a příjmení *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                      placeholder="Jan Novák"
+                      required
+                    />
+                  </div>
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-muted-foreground mb-2">
-                        Jméno
+                        Telefon *
                       </label>
                       <input
-                        type="text"
-                        value={formData.name}
+                        type="tel"
+                        value={formData.phone}
                         onChange={(e) =>
-                          setFormData({ ...formData, name: e.target.value })
+                          setFormData({ ...formData, phone: e.target.value })
                         }
                         className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
-                        placeholder="Vaše jméno"
+                        placeholder="+420 123 456 789"
                         required
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-muted-foreground mb-2">
-                        Email
+                        Email *
                       </label>
                       <input
                         type="email"
@@ -196,7 +213,7 @@ export function ContactPage() {
                           setFormData({ ...formData, email: e.target.value })
                         }
                         className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
-                        placeholder="vas@email.cz"
+                        placeholder="jan@email.cz"
                         required
                       />
                     </div>
