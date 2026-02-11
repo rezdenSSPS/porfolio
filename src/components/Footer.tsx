@@ -27,10 +27,10 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link to="/">
-              <Logo height={300} />
+              <Logo height={120} />
             </Link>
             <p className="text-muted-foreground mt-4 max-w-sm">
-              Tvůrce moderních webových stránek a aplikací. 
+              Tvůrce moderních webových stránek a aplikací.
               Pomáhám firmám růst v digitálním světě.
             </p>
           </div>
