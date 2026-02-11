@@ -302,15 +302,6 @@ function AdminDashboard() {
     }
   };
 
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'IN_PROGRESS': return 'In Progress';
-      case 'COMPLETED': return 'Completed';
-      case 'ON_HOLD': return 'On Hold';
-      default: return status;
-    }
-  };
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'COMPLETED': return 'bg-green-100 text-green-800';
