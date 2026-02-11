@@ -12,11 +12,36 @@ export function ContactPage() {
     subject: "",
     message: "",
   });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [formError, setFormError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+    setFormStatus('sending');
+    setFormError('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setFormStatus('error');
+        setFormError(result.error || 'Nepodařilo se odeslat zprávu');
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setFormError('Nepodařilo se odeslat zprávu. Zkuste to prosím znovu.');
+    }
   };
 
   const contactInfo = [
@@ -128,81 +153,113 @@ export function ContactPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {formStatus === 'success' ? (
+                <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center">
+                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Send className="w-8 h-8 text-green-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">Zpráva byla odeslána!</h3>
+                  <p className="text-muted-foreground">Děkuji za váš zájem. Ozvu se vám co nejdříve.</p>
+                  <button
+                    onClick={() => setFormStatus('idle')}
+                    className="mt-6 text-accent hover:text-accent/80 font-medium"
+                  >
+                    Odeslat další zprávu
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">
+                        Jméno
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                        placeholder="Vaše jméno"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                        placeholder="vas@email.cz"
+                        required
+                      />
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-muted-foreground mb-2">
-                      Jméno
+                      Předmět
                     </label>
                     <input
                       type="text"
-                      value={formData.name}
+                      value={formData.subject}
                       onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
+                        setFormData({ ...formData, subject: e.target.value })
                       }
                       className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
-                      placeholder="Vaše jméno"
+                      placeholder="O čem je váš projekt?"
                       required
                     />
                   </div>
+
                   <div>
                     <label className="block text-sm font-medium text-muted-foreground mb-2">
-                      Email
+                      Zpráva
                     </label>
-                    <input
-                      type="email"
-                      value={formData.email}
+                    <textarea
+                      value={formData.message}
                       onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
+                        setFormData({ ...formData, message: e.target.value })
                       }
-                      className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
-                      placeholder="vas@email.cz"
+                      rows={5}
+                      className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
+                      placeholder="Popište svůj projekt..."
                       required
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">
-                    Předmět
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.subject}
-                    onChange={(e) =>
-                      setFormData({ ...formData, subject: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
-                    placeholder="O čem je váš projekt?"
-                    required
-                  />
-                </div>
+                  {formStatus === 'error' && (
+                    <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-center">
+                      <p className="text-red-500">{formError}</p>
+                    </div>
+                  )}
 
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">
-                    Zpráva
-                  </label>
-                  <textarea
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    rows={5}
-                    className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
-                    placeholder="Popište svůj projekt..."
-                    required
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                >
-                  <Send className="w-5 h-5 mr-2" />
-                  Odeslat zprávu
-                </Button>
-              </form>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={formStatus === 'sending'}
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {formStatus === 'sending' ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                        Odesílám...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5 mr-2" />
+                        Odeslat zprávu
+                      </>
+                    )}
+                  </Button>
+                </form>
+              )}
             </motion.div>
           </div>
         </div>

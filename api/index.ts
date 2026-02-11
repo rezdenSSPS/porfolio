@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { PrismaClient } from '@prisma/client'
+import { handleContactForm } from './lib/contact'
 
 // Initialize Prisma Client
 const prisma = new PrismaClient()
@@ -57,6 +58,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       return res.status(200).json({ success: true, data: project })
+    }
+
+    // POST /api/contact
+    if (req.method === 'POST' && segments[0] === 'contact') {
+      try {
+        const result = await handleContactForm(req.body)
+        return res.status(200).json({ success: true, message: result.message })
+      } catch (error: any) {
+        return res.status(400).json({ success: false, error: error.message })
+      }
     }
 
     // 404 for unknown routes
