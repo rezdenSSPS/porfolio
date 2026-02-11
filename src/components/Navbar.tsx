@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Instagram, Twitter, Menu, X } from "lucide-react";
+import { Instagram, Linkedin, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
@@ -76,14 +76,14 @@ export function Navbar() {
                 <Instagram size={18} />
               </motion.a>
               <motion.a
-                href="https://twitter.com"
+                href="https://www.linkedin.com/in/denis-řezníček-151b6a3ab"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 whileHover={{ scale: 1.2, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <Twitter size={18} />
+                <Linkedin size={18} />
               </motion.a>
             </div>
           </div>

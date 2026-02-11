@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Instagram, Twitter, Linkedin, Github } from "lucide-react";
+import { Heart, Instagram, Linkedin, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 
@@ -16,8 +16,7 @@ export function Footer() {
 
   const socialLinks = [
     { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/denis-řezníček-151b6a3ab", label: "LinkedIn" },
     { icon: Github, href: "https://github.com", label: "GitHub" },
   ];
 
@@ -28,7 +27,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link to="/">
-              <Logo height={120} />
+              <Logo height={300} />
             </Link>
             <p className="text-muted-foreground mt-4 max-w-sm">
               Tvůrce moderních webových stránek a aplikací. 

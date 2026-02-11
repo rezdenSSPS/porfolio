@@ -129,7 +129,7 @@ export function ContactPage() {
                 <p className="text-sm text-muted-foreground mb-4">Sledujte mě na</p>
                 <div className="flex space-x-4">
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/denis-řezníček-151b6a3ab"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-12 h-12 bg-secondary/50 rounded-lg flex items-center justify-center border border-border hover:border-primary/50 hover:bg-secondary transition-all group"
