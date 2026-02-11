@@ -21,14 +21,14 @@ export function Contact() {
     {
       icon: Mail,
       label: "Email",
-      value: "info@tvujweb.cz",
-      href: "mailto:info@tvujweb.cz",
+      value: "denis@reznicek.xyz",
+      href: "mailto:denis@reznicek.xyz",
     },
     {
       icon: Phone,
       label: "Telefon",
-      value: "+420 123 456 789",
-      href: "tel:+420123456789",
+      value: "+420 776 523 655",
+      href: "tel:+420776523655",
     },
     {
       icon: MapPin,

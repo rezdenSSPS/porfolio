@@ -1,6 +1,6 @@
 import { serve } from '@hono/node-server'
 import dotenv from 'dotenv'
-import app from './index.js'
+import app from './local.js'
 
 // Load environment variables
 dotenv.config()
