@@ -36,7 +36,7 @@ const skills = [
 
 export function About() {
   return (
-    <section id="about" className="py-24 bg-[#1f1f1f]">
+    <section id="about" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
@@ -46,14 +46,14 @@ export function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-sm font-semibold tracking-widest text-blue-400 uppercase mb-4">
+            <p className="text-sm font-semibold tracking-widest text-accent uppercase mb-4">
               O mně
             </p>
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+            <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
               Váš partner pro
-              <span className="text-blue-400"> digitální úspěch</span>
+              <span className="text-accent"> digitální úspěch</span>
             </h2>
-            <div className="space-y-4 text-gray-400 leading-relaxed">
+            <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 Jsem nadšenec do moderních webových technologií s vášní pro kreativní 
                 řešení. Už více než 3 roky pomáhám firmám a jednotlivcům budovat 
@@ -74,10 +74,10 @@ export function About() {
             <div className="mt-8 space-y-4">
               <div>
                 <div className="flex justify-between mb-2">
-                  <span className="text-white font-medium">Frontend Development</span>
-                  <span className="text-gray-500">95%</span>
+                  <span className="text-foreground font-medium">Frontend Development</span>
+                  <span className="text-muted-foreground">95%</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
                     initial={{ width: 0 }}
@@ -89,10 +89,10 @@ export function About() {
               </div>
               <div>
                 <div className="flex justify-between mb-2">
-                  <span className="text-white font-medium">UI/UX Design</span>
-                  <span className="text-gray-500">85%</span>
+                  <span className="text-foreground font-medium">UI/UX Design</span>
+                  <span className="text-muted-foreground">85%</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
                     initial={{ width: 0 }}
@@ -104,10 +104,10 @@ export function About() {
               </div>
               <div>
                 <div className="flex justify-between mb-2">
-                  <span className="text-white font-medium">Backend & API</span>
-                  <span className="text-gray-500">75%</span>
+                  <span className="text-foreground font-medium">Backend & API</span>
+                  <span className="text-muted-foreground">75%</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
                     initial={{ width: 0 }}
@@ -135,11 +135,11 @@ export function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="group p-6 bg-secondary/30 rounded-xl border border-white/10 hover:border-white/20 hover:bg-secondary/50 transition-all duration-300"
+                className="group p-6 bg-secondary/50 rounded-xl border border-border hover:border-primary/50 hover:bg-secondary transition-all duration-300"
               >
-                <skill.icon className="w-10 h-10 text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h3 className="text-lg font-semibold text-white mb-2">{skill.title}</h3>
-                <p className="text-sm text-gray-400">{skill.description}</p>
+                <skill.icon className="w-10 h-10 text-accent mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">{skill.title}</h3>
+                <p className="text-sm text-muted-foreground">{skill.description}</p>
               </motion.div>
             ))}
           </motion.div>

@@ -49,7 +49,7 @@ const services = [
 
 export function Services() {
   return (
-    <section id="services" className="py-24 bg-[#1a1a1a]">
+    <section id="services" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -59,13 +59,13 @@ export function Services() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-semibold tracking-widest text-blue-400 uppercase mb-4">
+          <p className="text-sm font-semibold tracking-widest text-accent uppercase mb-4">
             Ceník
           </p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
             Služby a ceny
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Transparentní ceny bez skrytých poplatků. Vyberte si balíček 
             podle vašich potřeb.
           </p>
@@ -82,30 +82,30 @@ export function Services() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`relative p-8 rounded-2xl border transition-all duration-300 ${
                 service.popular
-                  ? "bg-gradient-to-b from-blue-900/30 to-purple-900/30 border-blue-500/50 scale-105"
-                  : "bg-secondary/20 border-white/10 hover:border-white/20"
+                  ? "bg-gradient-to-b from-primary/20 to-accent/20 border-primary scale-105"
+                  : "bg-secondary/50 border-border hover:border-primary/50"
               }`}
             >
               {service.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="px-4 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">
+                  <span className="px-4 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-full">
                     NEJOBLÍBENĚJŠÍ
                   </span>
                 </div>
               )}
 
-              <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
-              <p className="text-gray-400 text-sm mb-4">{service.description}</p>
+              <h3 className="text-xl font-bold text-foreground mb-2">{service.title}</h3>
+              <p className="text-muted-foreground text-sm mb-4">{service.description}</p>
               
               <div className="mb-6">
-                <span className="text-4xl font-bold text-white">{service.price}</span>
-                <span className="text-gray-500 ml-2">/projekt</span>
+                <span className="text-4xl font-bold text-foreground">{service.price}</span>
+                <span className="text-muted-foreground ml-2">/projekt</span>
               </div>
 
               <ul className="space-y-3 mb-8">
                 {service.features.map((feature) => (
-                  <li key={feature} className="flex items-center text-gray-300">
-                    <Check className="w-5 h-5 text-blue-400 mr-3 flex-shrink-0" />
+                  <li key={feature} className="flex items-center text-foreground">
+                    <Check className="w-5 h-5 text-accent mr-3 flex-shrink-0" />
                     <span className="text-sm">{feature}</span>
                   </li>
                 ))}
@@ -114,8 +114,8 @@ export function Services() {
               <Button
                 className={`w-full ${
                   service.popular
-                    ? "bg-blue-500 hover:bg-blue-600 text-white"
-                    : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
+                    ? "bg-primary hover:bg-primary/90 text-primary-foreground"
+                    : "bg-secondary hover:bg-secondary/80 text-foreground border border-border"
                 }`}
               >
                 Nezávazná konzultace
@@ -130,19 +130,19 @@ export function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 text-center p-8 bg-secondary/20 rounded-2xl border border-white/10"
+          className="mt-16 text-center p-8 bg-secondary/50 rounded-2xl border border-border"
         >
-          <h3 className="text-2xl font-bold text-white mb-4">
+          <h3 className="text-2xl font-bold text-foreground mb-4">
             Potřebujete něco specifického?
           </h3>
-          <p className="text-gray-400 mb-6 max-w-xl mx-auto">
+          <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
             Každý projekt je jedinečný. Pokud vaše požadavky nezapadají do 
             standardních balíčků, rád pro vás připravím individuální nabídku.
           </p>
           <Button
             variant="outline"
             size="lg"
-            className="border-white/30 text-white hover:bg-white hover:text-black"
+            className="border-border text-foreground hover:bg-primary hover:text-primary-foreground"
           >
             Kontaktujte mě
           </Button>

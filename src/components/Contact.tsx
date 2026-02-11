@@ -39,7 +39,7 @@ export function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-24 bg-[#1f1f1f]">
+    <section id="contact" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -49,13 +49,13 @@ export function Contact() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-semibold tracking-widest text-blue-400 uppercase mb-4">
+          <p className="text-sm font-semibold tracking-widest text-accent uppercase mb-4">
             Kontakt
           </p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
             Pojďme spolupracovat
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Máte nápad na projekt nebo potřebujete nový web? 
             Ozvěte se mi a společně to dáme dohromady.
           </p>
@@ -69,7 +69,7 @@ export function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-2xl font-bold text-white mb-8">
+            <h3 className="text-2xl font-bold text-foreground mb-8">
               Kontaktní informace
             </h3>
 
@@ -82,14 +82,14 @@ export function Contact() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center p-4 bg-secondary/30 rounded-xl border border-white/10 hover:border-white/20 transition-all group"
+                  className="flex items-center p-4 bg-secondary/50 rounded-xl border border-border hover:border-primary/50 transition-all group"
                 >
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4 group-hover:bg-blue-500/30 transition-colors">
-                    <item.icon className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mr-4 group-hover:bg-primary/30 transition-colors">
+                    <item.icon className="w-6 h-6 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">{item.label}</p>
-                    <p className="text-white font-medium group-hover:text-blue-400 transition-colors">
+                    <p className="text-sm text-muted-foreground">{item.label}</p>
+                    <p className="text-foreground font-medium group-hover:text-accent transition-colors">
                       {item.value}
                     </p>
                   </div>
@@ -99,23 +99,23 @@ export function Contact() {
 
             {/* Social Links */}
             <div>
-              <p className="text-sm text-gray-500 mb-4">Sledujte mě na</p>
+              <p className="text-sm text-muted-foreground mb-4">Sledujte mě na</p>
               <div className="flex space-x-4">
                 <a
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-secondary/30 rounded-lg flex items-center justify-center border border-white/10 hover:border-white/20 hover:bg-secondary/50 transition-all group"
+                  className="w-12 h-12 bg-secondary/50 rounded-lg flex items-center justify-center border border-border hover:border-primary/50 hover:bg-secondary transition-all group"
                 >
-                  <Linkedin className="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
+                  <Linkedin className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors" />
                 </a>
                 <a
                   href="https://github.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-secondary/30 rounded-lg flex items-center justify-center border border-white/10 hover:border-white/20 hover:bg-secondary/50 transition-all group"
+                  className="w-12 h-12 bg-secondary/50 rounded-lg flex items-center justify-center border border-border hover:border-primary/50 hover:bg-secondary transition-all group"
                 >
-                  <Github className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+                  <Github className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </a>
               </div>
             </div>
@@ -131,7 +131,7 @@ export function Contact() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">
                     Jméno
                   </label>
                   <input
@@ -140,13 +140,13 @@ export function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className="w-full px-4 py-3 bg-secondary/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 transition-colors"
+                    className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                     placeholder="Vaše jméno"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">
                     Email
                   </label>
                   <input
@@ -155,7 +155,7 @@ export function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className="w-full px-4 py-3 bg-secondary/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 transition-colors"
+                    className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                     placeholder="vas@email.cz"
                     required
                   />
@@ -163,7 +163,7 @@ export function Contact() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
                   Předmět
                 </label>
                 <input
@@ -172,14 +172,14 @@ export function Contact() {
                   onChange={(e) =>
                     setFormData({ ...formData, subject: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-secondary/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 transition-colors"
+                  className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                   placeholder="O čem je váš projekt?"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
                   Zpráva
                 </label>
                 <textarea
@@ -188,7 +188,7 @@ export function Contact() {
                     setFormData({ ...formData, message: e.target.value })
                   }
                   rows={5}
-                  className="w-full px-4 py-3 bg-secondary/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
                   placeholder="Popište svůj projekt..."
                   required
                 />
@@ -197,7 +197,7 @@ export function Contact() {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 <Send className="w-5 h-5 mr-2" />
                 Odeslat zprávu

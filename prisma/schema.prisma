@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProjectStatus {
+  IN_PROGRESS
+  COMPLETED
+  ON_HOLD
+}
+
+model Project {
+  id           String        @id @default(uuid())
+  title        String
+  category     String
+  description  String
+  imageUrl     String?
+  websiteUrl   String?
+  technologies String[]
+  aiPrompt     String?
+  status       ProjectStatus @default(COMPLETED)
+  featured     Boolean       @default(false)
+  order        Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  images       ProjectImage[]
+
+  @@index([status])
+  @@index([featured])
+  @@index([createdAt])
+  @@index([order])
+}
+
+model ProjectImage {
+  id         String   @id @default(uuid())
+  projectId  String
+  imageUrl   String
+  isPrimary  Boolean  @default(false)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}

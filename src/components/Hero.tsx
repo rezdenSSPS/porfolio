@@ -43,7 +43,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center pt-16 bg-gradient-to-br from-[#1a1a1a] via-[#1f1f1f] to-[#2a2a2a]"
+      className="min-h-screen flex items-center pt-16 bg-gradient-to-br from-card via-background to-secondary"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -57,7 +57,7 @@ export function Hero() {
             {/* Greeting */}
             <motion.p
               variants={itemVariants}
-              className="text-sm font-semibold tracking-widest text-gray-400 uppercase"
+              className="text-sm font-semibold tracking-widest text-muted-foreground uppercase"
             >
               Ahoj, jsem tvůrce webů
             </motion.p>
@@ -65,7 +65,7 @@ export function Hero() {
             {/* Main Heading */}
             <motion.h1
               variants={itemVariants}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[0.95] tracking-tight"
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-[0.95] tracking-tight"
             >
               <span className="block">JSEM</span>
               <span className="block mt-2">WEB DESIGNER</span>
@@ -74,7 +74,7 @@ export function Hero() {
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="text-lg text-gray-400 max-w-md leading-relaxed"
+              className="text-lg text-muted-foreground max-w-md leading-relaxed"
             >
               Specializuji se na tvorbu moderních a funkčních webových stránek, 
               které pomáhají firmám růst a zaujmout jejich zákazníky. 
@@ -90,7 +90,7 @@ export function Hero() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="group border-white/30 bg-transparent text-white hover:bg-white hover:text-black transition-all duration-300 px-8 py-6 text-sm font-semibold tracking-wider"
+                  className="group border-border bg-transparent text-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 px-8 py-6 text-sm font-semibold tracking-wider"
                 >
                   ZOBRAZIT PROJEKTY
                   <motion.span
@@ -107,19 +107,19 @@ export function Hero() {
             {/* Stats */}
             <motion.div
               variants={itemVariants}
-              className="flex gap-12 pt-8 border-t border-white/10"
+              className="flex gap-12 pt-8 border-t border-border"
             >
               <div>
-                <p className="text-3xl font-bold text-white">3+</p>
-                <p className="text-sm text-gray-500 mt-1">Roky zkušeností</p>
+                <p className="text-3xl font-bold text-foreground">3+</p>
+                <p className="text-sm text-muted-foreground mt-1">Roky zkušeností</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-white">15+</p>
-                <p className="text-sm text-gray-500 mt-1">Dokončených projektů</p>
+                <p className="text-3xl font-bold text-foreground">15+</p>
+                <p className="text-sm text-muted-foreground mt-1">Dokončených projektů</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-white">100%</p>
-                <p className="text-sm text-gray-500 mt-1">Spokojených klientů</p>
+                <p className="text-3xl font-bold text-foreground">100%</p>
+                <p className="text-sm text-muted-foreground mt-1">Spokojených klientů</p>
               </div>
             </motion.div>
           </motion.div>
@@ -133,11 +133,11 @@ export function Hero() {
           >
             <div className="relative">
               {/* Background glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 blur-3xl rounded-full scale-150" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 blur-3xl rounded-full scale-150" />
               
               {/* Person Image Placeholder */}
               <motion.div
-                className="relative z-10 w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-b from-gray-700 to-gray-800"
+                className="relative z-10 w-full max-w-md aspect-[3/4] rounded-[var(--radius)] overflow-hidden bg-secondary"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.4 }}
               >
@@ -153,7 +153,7 @@ export function Hero() {
 
               {/* Floating badge */}
               <motion.div
-                className="absolute -bottom-4 -left-4 z-20 bg-white text-black px-4 py-2 rounded-lg shadow-xl"
+                className="absolute -bottom-4 -left-4 z-20 bg-primary text-primary-foreground px-4 py-2 rounded-[var(--radius)] shadow-[var(--shadow-xl)]"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 0.5 }}
@@ -173,12 +173,12 @@ export function Hero() {
         transition={{ delay: 1.5, duration: 0.5 }}
       >
         <motion.div
-          className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2"
+          className="w-6 h-10 border-2 border-border rounded-full flex justify-center pt-2"
           animate={{ y: [0, 5, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
           <motion.div
-            className="w-1.5 h-1.5 bg-white rounded-full"
+            className="w-1.5 h-1.5 bg-foreground rounded-full"
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
