@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { PrismaClient } from '@prisma/client'
-import { handleContactForm } from './lib/contact'
+import { handleContactForm } from './lib/contact.js'
 
 // Initialize Prisma Client
 const prisma = new PrismaClient()
