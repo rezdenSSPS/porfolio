@@ -4,7 +4,7 @@ import { eq, desc, asc, sql } from 'drizzle-orm'
 import { handleContactForm } from './lib/contact.js'
 import crypto from 'crypto'
 import { v2 as cloudinary } from 'cloudinary'
-import formidable from 'formidable'
+import formidable, { Fields, Files } from 'formidable'
 import fs from 'fs'
 
 // Configure Cloudinary
@@ -31,15 +31,15 @@ const checkAuth = (req: VercelRequest): boolean => {
   return token.length > 10
 }
 
-// Parse multipart form data using formidable
-const parseForm = async (req: VercelRequest): Promise<{ files: formidable.Files }> => {
+// Parse multipart form data using formidable v3+
+const parseForm = async (req: VercelRequest): Promise<{ files: Files }> => {
   return new Promise((resolve, reject) => {
-    const form = new formidable.IncomingForm({
+    const form = formidable({
       multiples: true,
       maxFileSize: 10 * 1024 * 1024, // 10MB
     })
 
-    form.parse(req, (err, fields, files) => {
+    form.parse(req as any, (err: any, fields: Fields, files: Files) => {
       if (err) {
         reject(err)
         return
