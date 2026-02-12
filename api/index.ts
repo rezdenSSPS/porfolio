@@ -313,6 +313,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       console.log('POST /api/admin/projects - Body:', JSON.stringify(body, null, 2))
       const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order, images } = body
 
+      const primaryImage = images?.find((img: any) => img.isPrimary) || images?.[0]
+      const imageUrl = primaryImage?.url || primaryImage?.imageUrl || null
+
       const project = await db.insert(schema.projects).values({
         title,
         category,
@@ -323,6 +326,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         status: status || 'COMPLETED',
         featured: featured || false,
         order: order || 0,
+        imageUrl,
       }).returning()
 
       if (images && images.length > 0) {
@@ -357,6 +361,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order, images } = body
       console.log('Images received:', images)
 
+      const primaryImage = images?.find((img: any) => img.isPrimary) || images?.[0]
+      const imageUrl = primaryImage?.url || primaryImage?.imageUrl || null
+
       const project = await db.update(schema.projects)
         .set({
           title,
@@ -368,6 +375,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           status,
           featured,
           order,
+          imageUrl,
           updatedAt: new Date(),
         })
         .where(eq(schema.projects.id, segments[2]))

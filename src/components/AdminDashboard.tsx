@@ -632,10 +632,10 @@ function AdminDashboard() {
                 <tr key={project.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      {project.imageUrl && (
+                      {(project.imageUrl || project.images?.[0]?.imageUrl) && (
                         <div className="h-10 w-10 rounded-lg overflow-hidden bg-gray-200 mr-3">
                           <img
-                            src={project.imageUrl}
+                            src={project.imageUrl || project.images?.[0]?.imageUrl}
                             alt={project.title}
                             className="h-full w-full object-cover"
                             onError={(e) => {

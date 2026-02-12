@@ -12,7 +12,7 @@ interface Project {
   imageUrl: string | null;
   websiteUrl: string | null;
   technologies: string[];
-
+  images?: { url: string; imageUrl?: string }[];
   featured: boolean;
 }
 
@@ -44,7 +44,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const handleMouseLeave = () => setIsHovering(false);
 
   const hasWebsite = project.websiteUrl && project.websiteUrl !== '#';
-  const hasImage = project.imageUrl && project.imageUrl !== '';
+  const displayImage = project.imageUrl || project.images?.[0]?.url || project.images?.[0]?.imageUrl || '';
+  const hasImage = displayImage !== '';
 
   return (
     <motion.div
@@ -70,7 +71,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             transition={{ duration: 0.4 }}
           >
             <img
-              src={hasImage ? project.imageUrl! : 'https://via.placeholder.com/800x500?text=No+Image'}
+              src={hasImage ? displayImage : 'https://via.placeholder.com/800x500?text=No+Image'}
               alt={project.title}
               className="w-full h-full object-cover"
             />
