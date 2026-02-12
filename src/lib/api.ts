@@ -1,4 +1,4 @@
-import { Project } from './data';
+import type { Project } from './data';
 
 interface CacheItem<T> {
   data: T;
@@ -6,14 +6,14 @@ interface CacheItem<T> {
 }
 
 const CACHE_TTL = 60 * 1000; // 1 minute
-const cache: Record<string, CacheItem<any>> = {};
+const cache: Record<string, CacheItem<unknown>> = {};
 
 export async function fetchWithCache<T>(url: string): Promise<T> {
   const now = Date.now();
   const cached = cache[url];
 
   if (cached && (now - cached.timestamp < CACHE_TTL)) {
-    return cached.data;
+    return cached.data as T;
   }
 
   const response = await fetch(url);
