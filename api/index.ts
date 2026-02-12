@@ -7,6 +7,28 @@ import { v2 as cloudinary } from 'cloudinary'
 import formidable, { Fields, Files } from 'formidable'
 import fs from 'fs'
 
+// Helper to parse JSON body
+const parseJsonBody = async (req: VercelRequest): Promise<any> => {
+  if (req.body) {
+    return req.body
+  }
+  
+  return new Promise((resolve, reject) => {
+    let data = ''
+    req.on('data', (chunk) => {
+      data += chunk.toString()
+    })
+    req.on('end', () => {
+      try {
+        resolve(data ? JSON.parse(data) : {})
+      } catch (err) {
+        reject(err)
+      }
+    })
+    req.on('error', reject)
+  })
+}
+
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -287,7 +309,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(401).json({ success: false, error: 'Unauthorized' })
       }
 
-      const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order, images } = req.body
+      const body = await parseJsonBody(req)
+      console.log('POST /api/admin/projects - Body:', JSON.stringify(body, null, 2))
+      const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order, images } = body
 
       const project = await db.insert(schema.projects).values({
         title,
@@ -328,7 +352,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(401).json({ success: false, error: 'Unauthorized' })
       }
 
-      const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order, images } = req.body
+      const body = await parseJsonBody(req)
+      const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order, images } = body
 
       const project = await db.update(schema.projects)
         .set({
