@@ -4,6 +4,8 @@ import { eq, desc, asc, sql } from 'drizzle-orm'
 import { handleContactForm } from './lib/contact.js'
 import crypto from 'crypto'
 import { v2 as cloudinary } from 'cloudinary'
+import formidable from 'formidable'
+import fs from 'fs'
 
 // Configure Cloudinary
 cloudinary.config({
@@ -29,54 +31,21 @@ const checkAuth = (req: VercelRequest): boolean => {
   return token.length > 10
 }
 
-// Parse multipart form data (simple version)
-const parseMultipart = async (req: VercelRequest): Promise<{ files: Buffer[], filenames: string[] }> => {
+// Parse multipart form data using formidable
+const parseForm = async (req: VercelRequest): Promise<{ files: formidable.Files }> => {
   return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = []
-    const contentType = req.headers['content-type'] || ''
-    
-    if (!contentType.includes('multipart/form-data')) {
-      reject(new Error('Invalid content type'))
-      return
-    }
-
-    req.on('data', (chunk) => {
-      chunks.push(chunk)
+    const form = new formidable.IncomingForm({
+      multiples: true,
+      maxFileSize: 10 * 1024 * 1024, // 10MB
     })
 
-    req.on('end', () => {
-      const buffer = Buffer.concat(chunks)
-      const boundary = contentType.split('boundary=')[1]
-      
-      if (!boundary) {
-        reject(new Error('No boundary found'))
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        reject(err)
         return
       }
-
-      const parts = buffer.toString().split(`--${boundary}`)
-      const files: Buffer[] = []
-      const filenames: string[] = []
-
-      for (const part of parts) {
-        if (part.includes('Content-Disposition') && part.includes('filename=')) {
-          const filenameMatch = part.match(/filename="([^"]+)"/)
-          if (filenameMatch) {
-            filenames.push(filenameMatch[1])
-            // Extract file data (after empty line)
-            const dataStart = part.indexOf('\r\n\r\n') + 4
-            const dataEnd = part.lastIndexOf('\r\n')
-            if (dataStart > 4 && dataEnd > dataStart) {
-              const fileData = part.substring(dataStart, dataEnd)
-              files.push(Buffer.from(fileData))
-            }
-          }
-        }
-      }
-
-      resolve({ files, filenames })
+      resolve({ files })
     })
-
-    req.on('error', reject)
   })
 }
 
@@ -222,23 +191,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       try {
-        const { files, filenames } = await parseMultipart(req)
+        const { files } = await parseForm(req)
         
-        if (files.length === 0) {
+        const uploadedFiles = Array.isArray(files.files) ? files.files : [files.files].filter(Boolean)
+        
+        if (uploadedFiles.length === 0) {
           return res.status(400).json({ success: false, error: 'No files provided' })
         }
 
-        // Validate file types
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
-        const maxSize = 10 * 1024 * 1024 // 10MB
-
         // Upload all files to Cloudinary
-        const uploadPromises = files.map(async (buffer, index) => {
-          // Check file size
-          if (buffer.length > maxSize) {
-            throw new Error(`File ${filenames[index]} exceeds 10MB limit`)
-          }
-
+        const uploadPromises = uploadedFiles.map(async (file: any) => {
+          const fileData = fs.readFileSync(file.filepath)
+          
           return new Promise((resolve, reject) => {
             cloudinary.uploader.upload_stream(
               {
@@ -253,11 +217,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 if (error) reject(error)
                 else resolve(result)
               }
-            ).end(buffer)
+            ).end(fileData)
           })
         })
 
         const results = await Promise.all(uploadPromises)
+
+        // Clean up temp files
+        uploadedFiles.forEach((file: any) => {
+          if (file.filepath && fs.existsSync(file.filepath)) {
+            fs.unlinkSync(file.filepath)
+          }
+        })
 
         return res.status(200).json({
           success: true,

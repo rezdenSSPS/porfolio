@@ -21,10 +21,12 @@
   "dependencies": {
     "@hono/node-server": "^1.19.9",
     "@neondatabase/serverless": "^1.0.2",
+    "@types/formidable": "^3.4.6",
     "@vercel/node": "^3.2.0",
     "cloudinary": "^2.9.0",
     "dotenv": "^17.2.4",
     "drizzle-orm": "^0.45.1",
+    "formidable": "^3.5.4",
     "hono": "^4.11.9",
     "nodemailer": "^8.0.1",
     "react": "^19.2.0",
