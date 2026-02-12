@@ -353,7 +353,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const body = await parseJsonBody(req)
+      console.log('PUT /api/admin/projects/:id - Body:', JSON.stringify(body, null, 2))
       const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order, images } = body
+      console.log('Images received:', images)
 
       const project = await db.update(schema.projects)
         .set({
