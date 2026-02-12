@@ -421,7 +421,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // DELETE /api/admin/projects/:id - Delete project
-    if (req.method === 'DELETE' && segments[0] === 'admin' && segments[1] === 'projects' && segments[2]) {
+    if (req.method === 'DELETE' && segments[0] === 'admin' && segments[1] === 'projects' && segments[2] && !segments[3]) {
       if (!checkAuth(req)) {
         return res.status(401).json({ success: false, error: 'Unauthorized' })
       }
@@ -431,6 +431,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({
         success: true,
         message: 'Project deleted successfully',
+      })
+    }
+
+    // PATCH /api/admin/projects/:id/status - Update project status
+    if (req.method === 'PATCH' && segments[0] === 'admin' && segments[1] === 'projects' && segments[2] && segments[3] === 'status') {
+      if (!checkAuth(req)) {
+        return res.status(401).json({ success: false, error: 'Unauthorized' })
+      }
+
+      const body = await parseJsonBody(req)
+      const { status } = body
+
+      const project = await db.update(schema.projects)
+        .set({ status, updatedAt: new Date() })
+        .where(eq(schema.projects.id, segments[2]))
+        .returning()
+
+      if (!project || project.length === 0) {
+        return res.status(404).json({ success: false, error: 'Project not found' })
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: project[0],
+      })
+    }
+
+    // PATCH /api/admin/projects/:id/featured - Update project featured status
+    if (req.method === 'PATCH' && segments[0] === 'admin' && segments[1] === 'projects' && segments[2] && segments[3] === 'featured') {
+      if (!checkAuth(req)) {
+        return res.status(401).json({ success: false, error: 'Unauthorized' })
+      }
+
+      const body = await parseJsonBody(req)
+      const { featured } = body
+
+      const project = await db.update(schema.projects)
+        .set({ featured, updatedAt: new Date() })
+        .where(eq(schema.projects.id, segments[2]))
+        .returning()
+
+      if (!project || project.length === 0) {
+        return res.status(404).json({ success: false, error: 'Project not found' })
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: project[0],
       })
     }
 
