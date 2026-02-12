@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { db, schema } from '../api/lib/db.js'
 
 async function seed() {
