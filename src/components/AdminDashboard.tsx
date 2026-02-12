@@ -191,6 +191,9 @@ function AdminDashboard() {
         }))
       };
 
+      console.log('Submitting data:', JSON.stringify(submitData, null, 2));
+      console.log('Uploaded images:', uploadedImages);
+
       const response = await fetch(url, {
         method,
         headers: {
