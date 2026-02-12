@@ -5,6 +5,9 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // Enable connection pooling for serverless environments
+  // Neon Connection Pooler (port 5432 or 6543)
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 enum ProjectStatus {
@@ -33,6 +36,8 @@ model Project {
   @@index([featured])
   @@index([createdAt])
   @@index([order])
+  // Composite index for common query patterns
+  @@index([status, featured, order])
 }
 
 model ProjectImage {

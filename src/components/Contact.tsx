@@ -47,7 +47,7 @@ export function Contact() {
     {
       icon: Mail,
       label: "Email",
-      value: "denis@reznicek.xyz",
+      value: "Denis@Reznicek.xyz",
       href: "mailto:denis@reznicek.xyz",
     },
     {

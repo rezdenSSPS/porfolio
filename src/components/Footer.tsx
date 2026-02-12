@@ -76,7 +76,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            {currentYear} Všechna práva vyhrazena.
+            {currentYear} Řezníček Denis Všechna práva vyhrazena.
           </p>
           <p className="text-muted-foreground text-sm flex items-center">
             Vytvořeno s{" "}

@@ -1,9 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { PrismaClient } from '@prisma/client'
+import { db, schema, testConnection } from './lib/db.js'
+import { eq, desc, asc } from 'drizzle-orm'
 import { handleContactForm } from './lib/contact.js'
-
-// Initialize Prisma Client
-const prisma = new PrismaClient()
 
 // CORS middleware
 const setCors = (res: VercelResponse) => {
@@ -15,9 +13,7 @@ const setCors = (res: VercelResponse) => {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res)
 
-  // Add Edge Caching headers
-  // s-maxage: how long to keep in edge cache (1s)
-  // stale-while-revalidate: serve stale content while updating in background (59s)
+  // Add Edge Caching headers for GET requests
   if (req.method === 'GET') {
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=59')
   }
@@ -32,31 +28,49 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // GET /api/projects
     if (req.method === 'GET' && segments[0] === 'projects' && !segments[1]) {
-      const projects = await prisma.project.findMany({
-        where: { status: 'COMPLETED' },
-        include: {
-          images: { orderBy: { order: 'asc' } }
+      // OPTIMIZED: Single query with join - avoids N+1 pattern
+      // Drizzle automatically handles the relationship query efficiently
+      const projectsData = await db.query.projects.findMany({
+        where: eq(schema.projects.status, 'COMPLETED'),
+        with: {
+          images: {
+            orderBy: asc(schema.projectImages.order),
+            columns: {
+              id: true,
+              imageUrl: true,
+              isPrimary: true,
+              order: true
+            }
+          }
         },
         orderBy: [
-          { featured: 'desc' },
-          { order: 'asc' },
-          { createdAt: 'desc' }
+          desc(schema.projects.featured),
+          asc(schema.projects.order),
+          desc(schema.projects.createdAt)
         ]
       })
 
       return res.status(200).json({
         success: true,
-        data: projects,
-        count: projects.length,
+        data: projectsData,
+        count: projectsData.length,
       })
     }
 
     // GET /api/projects/:id
     if (req.method === 'GET' && segments[0] === 'projects' && segments[1]) {
-      const project = await prisma.project.findUnique({
-        where: { id: segments[1] },
-        include: {
-          images: { orderBy: { order: 'asc' } }
+      const project = await db.query.projects.findFirst({
+        where: eq(schema.projects.id, segments[1]),
+        with: {
+          images: {
+            orderBy: asc(schema.projectImages.order),
+            columns: {
+              id: true,
+              imageUrl: true,
+              isPrimary: true,
+              order: true
+            }
+          }
         }
       })
 
