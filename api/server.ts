@@ -1,9 +1,9 @@
 import { serve } from '@hono/node-server'
 import dotenv from 'dotenv'
-import app from './local.js'
 
-// Load environment variables
 dotenv.config()
+
+const { default: app } = await import('./local.js')
 
 const PORT = process.env.PORT || 3001
 

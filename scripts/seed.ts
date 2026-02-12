@@ -14,12 +14,12 @@ async function seed() {
 
     // Project 1: Handyman Website
     const handymanProject = await db.insert(schema.projects).values({
-      title: 'Profesionální HandyMan Služby',
+      title: 'Hodinový manžel - Kutilské služby',
       category: 'Web Development',
-      description: 'Moderní webové stránky pro profesionálního řemeslníka nabízejícího kompletní služby od oprav po renovace. Web obsahuje rezervační systém, galerii prací a kontaktní formulář.',
+      description: 'Prezentační web pro poskytovatele kutilských služeb v Ústeckém kraji (Ústí nad Labem, Teplice, Most, Děčín). Komplexní nabídka služeb včetně zednických prací, rekonstrukcí bytů, pokládky podlah, úklidu domácností, údržby zahrad, malířských prací, elektro a instalatérských prací. Web obsahuje katalog služeb, ceník, sekci hodnocení klientů a kontaktní formulář s emailovou integrací přes Resend.',
       imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop',
       websiteUrl: 'https://handyman-example.cz',
-      technologies: ['React', 'Next.js', 'Tailwind CSS', 'Node.js'],
+      technologies: ['React', 'TypeScript', 'Vite', 'shadcn-ui', 'Tailwind CSS', 'Express', 'Resend'],
       aiPrompt: 'Professional product photography of a laptop displaying a handyman services website with tools in background, clean modern design, natural lighting',
       status: 'COMPLETED',
       featured: true,
@@ -51,12 +51,12 @@ async function seed() {
 
     // Project 2: Real Estate Website
     const realEstateProject = await db.insert(schema.projects).values({
-      title: 'Realitní Kancelář Premium',
+      title: 'Vojta Tuturil - Realitní makléř',
       category: 'Web Development',
-      description: 'Elegantní prezentační web pro realitní kancelář s pokročilým vyhledáváním nemovitostí, virtuálními prohlídkami a online rezervačním systémem pro prohlídky.',
+      description: 'Profesionální web pro realitního makléře působícího v Praze a Středočeském kraji. Dynamicá databáze nemovitostí s PostgreSQL a Prisma ORM, detailní stránky nabídek včetně mapových podkladů, videoprohlídek a fotogalerií. Integrace Google recenzí, blog, kontaktní formuláře a admin rozhraní pro správu nabídek. SEO optimalizace se structured data pro RealEstateAgent.',
       imageUrl: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop',
-      websiteUrl: 'https://realestate-example.cz',
-      technologies: ['React', 'TypeScript', 'PostgreSQL', 'Prisma'],
+      websiteUrl: 'https://vojtech-tuturil.cz',
+      technologies: ['React', 'TypeScript', 'Vite', 'Prisma', 'PostgreSQL', 'Hono', 'Cloudinary', 'Nodemailer'],
       aiPrompt: 'Professional product photography of a laptop displaying a luxury real estate website, modern apartment interior in background, elegant lighting',
       status: 'COMPLETED',
       featured: true,
@@ -88,12 +88,12 @@ async function seed() {
 
     // Project 3: Used Car Parts Website
     const carPartsProject = await db.insert(schema.projects).values({
-      title: 'Bazar Auto Dílů Pro',
+      title: 'Autíčkadily - Prodej autodílů',
       category: 'Web Development',
-      description: 'Rozsáhlý e-commerce web pro prodejce použitých autodílů s pokročilým filtrováním, správou skladu, online platbami a systémem pro sledování objednávek.',
+      description: 'Moderní web pro prodejce náhradních autodílů s osobním přístupem. Poptávkový formulář pro zákazníky, přehled produktů včetně brzdových kotoučů, motorových olejů, vstřikovačů a filtrů. Emailová notifikace přes Resend, rate limiting pomocí Upstash Redis. Na rozdíl od velkých e-shopů osobní komunikace a rychlé vyhledání potřebných dílů za dostupnější ceny než v servisu.',
       imageUrl: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop',
-      websiteUrl: 'https://autodily-example.cz',
-      technologies: ['Next.js', 'Stripe', 'MongoDB', 'Tailwind CSS'],
+      websiteUrl: 'https://autickadily.cz',
+      technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'shadcn-ui', 'Resend', 'Upstash Redis'],
       aiPrompt: 'Professional product photography of a laptop displaying an auto parts e-commerce website, car parts and tools in background, industrial lighting',
       status: 'COMPLETED',
       featured: false,
@@ -125,9 +125,9 @@ async function seed() {
 
     console.log('\n🎉 Seeding completed successfully!')
     console.log('\nProjects added:')
-    console.log('  1. Profesionální HandyMan Služby (Handyman)')
-    console.log('  2. Realitní Kancelář Premium (Real Estate)')
-    console.log('  3. Bazar Auto Dílů Pro (Used Car Parts)')
+    console.log('  1. Hodinový manžel - Kutilské služby (Handyman)')
+    console.log('  2. Realitní makléř Vojta Tuturil (Real Estate)')
+    console.log('  3. Autíčkadily - Prodej autodílů (Car Parts)')
     console.log('\n📸 All projects now use placeholder images from Unsplash')
     console.log('   To use your own images:')
     console.log('   1. Upload photos to Cloudinary')
