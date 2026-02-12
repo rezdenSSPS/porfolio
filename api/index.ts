@@ -3,6 +3,14 @@ import { db, schema } from './lib/db.js'
 import { eq, desc, asc, sql } from 'drizzle-orm'
 import { handleContactForm } from './lib/contact.js'
 import crypto from 'crypto'
+import { v2 as cloudinary } from 'cloudinary'
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 // CORS middleware
 const setCors = (res: VercelResponse) => {
@@ -18,14 +26,63 @@ const checkAuth = (req: VercelRequest): boolean => {
     return false
   }
   const token = authHeader.substring(7)
-  // Simple token validation - in production use JWT
   return token.length > 10
+}
+
+// Parse multipart form data (simple version)
+const parseMultipart = async (req: VercelRequest): Promise<{ files: Buffer[], filenames: string[] }> => {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = []
+    const contentType = req.headers['content-type'] || ''
+    
+    if (!contentType.includes('multipart/form-data')) {
+      reject(new Error('Invalid content type'))
+      return
+    }
+
+    req.on('data', (chunk) => {
+      chunks.push(chunk)
+    })
+
+    req.on('end', () => {
+      const buffer = Buffer.concat(chunks)
+      const boundary = contentType.split('boundary=')[1]
+      
+      if (!boundary) {
+        reject(new Error('No boundary found'))
+        return
+      }
+
+      const parts = buffer.toString().split(`--${boundary}`)
+      const files: Buffer[] = []
+      const filenames: string[] = []
+
+      for (const part of parts) {
+        if (part.includes('Content-Disposition') && part.includes('filename=')) {
+          const filenameMatch = part.match(/filename="([^"]+)"/)
+          if (filenameMatch) {
+            filenames.push(filenameMatch[1])
+            // Extract file data (after empty line)
+            const dataStart = part.indexOf('\r\n\r\n') + 4
+            const dataEnd = part.lastIndexOf('\r\n')
+            if (dataStart > 4 && dataEnd > dataStart) {
+              const fileData = part.substring(dataStart, dataEnd)
+              files.push(Buffer.from(fileData))
+            }
+          }
+        }
+      }
+
+      resolve({ files, filenames })
+    })
+
+    req.on('error', reject)
+  })
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res)
 
-  // Add Edge Caching headers for GET requests
   if (req.method === 'GET') {
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=59')
   }
@@ -158,6 +215,68 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       })
     }
 
+    // POST /api/admin/upload/images - Upload images to Cloudinary
+    if (req.method === 'POST' && segments[0] === 'admin' && segments[1] === 'upload' && segments[2] === 'images') {
+      if (!checkAuth(req)) {
+        return res.status(401).json({ success: false, error: 'Unauthorized' })
+      }
+
+      try {
+        const { files, filenames } = await parseMultipart(req)
+        
+        if (files.length === 0) {
+          return res.status(400).json({ success: false, error: 'No files provided' })
+        }
+
+        // Validate file types
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
+        const maxSize = 10 * 1024 * 1024 // 10MB
+
+        // Upload all files to Cloudinary
+        const uploadPromises = files.map(async (buffer, index) => {
+          // Check file size
+          if (buffer.length > maxSize) {
+            throw new Error(`File ${filenames[index]} exceeds 10MB limit`)
+          }
+
+          return new Promise((resolve, reject) => {
+            cloudinary.uploader.upload_stream(
+              {
+                resource_type: 'image',
+                folder: 'portfolio-projects',
+                transformation: [
+                  { quality: 'auto:good' },
+                  { fetch_format: 'auto' }
+                ]
+              },
+              (error, result) => {
+                if (error) reject(error)
+                else resolve(result)
+              }
+            ).end(buffer)
+          })
+        })
+
+        const results = await Promise.all(uploadPromises)
+
+        return res.status(200).json({
+          success: true,
+          data: results.map((result: any) => ({
+            url: result.secure_url,
+            publicId: result.public_id,
+            width: result.width,
+            height: result.height
+          }))
+        })
+      } catch (error: any) {
+        console.error('Upload error:', error)
+        return res.status(500).json({ 
+          success: false, 
+          error: error.message || 'Upload failed' 
+        })
+      }
+    }
+
     // GET /api/admin/projects - Get all projects (admin)
     if (req.method === 'GET' && segments[0] === 'admin' && segments[1] === 'projects' && !segments[2]) {
       if (!checkAuth(req)) {
@@ -211,7 +330,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         order: order || 0,
       }).returning()
 
-      // Insert images if provided
       if (images && images.length > 0) {
         await db.insert(schema.projectImages).values(
           images.map((img: any, idx: number) => ({
@@ -235,7 +353,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(401).json({ success: false, error: 'Unauthorized' })
       }
 
-      const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order } = req.body
+      const { title, category, description, websiteUrl, technologies, aiPrompt, status, featured, order, images } = req.body
 
       const project = await db.update(schema.projects)
         .set({
@@ -255,6 +373,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       if (!project || project.length === 0) {
         return res.status(404).json({ success: false, error: 'Project not found' })
+      }
+
+      // Update images if provided
+      if (images && Array.isArray(images)) {
+        // Delete existing images
+        await db.delete(schema.projectImages).where(eq(schema.projectImages.projectId, segments[2]))
+        
+        // Insert new images
+        if (images.length > 0) {
+          await db.insert(schema.projectImages).values(
+            images.map((img: any, idx: number) => ({
+              projectId: segments[2],
+              imageUrl: img.imageUrl,
+              isPrimary: idx === 0,
+              order: idx,
+            }))
+          )
+        }
       }
 
       return res.status(200).json({
