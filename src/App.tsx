@@ -14,8 +14,15 @@ import { AboutPage } from "@/pages/AboutPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
 import { ServicesPage } from "@/pages/ServicesPage";
 import { ContactPage } from "@/pages/ContactPage";
+import { useEffect } from "react";
+import { prefetch } from "@/lib/api";
 
 function HomePage() {
+  useEffect(() => {
+    // Prefetch projects as soon as the app loads
+    prefetch('/api/projects');
+  }, []);
+
   return (
     <>
       <Navbar />

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ExternalLink, ArrowUpRight } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchWithCache, prefetch } from "@/lib/api";
 
 interface Project {
   id: string;
@@ -35,7 +36,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     }
   };
 
-  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    // Prefetch project detail when hovering
+    prefetch(`/api/projects/${project.id}`);
+  };
   const handleMouseLeave = () => setIsHovering(false);
 
   const hasWebsite = project.websiteUrl && project.websiteUrl !== '#';
@@ -149,15 +154,16 @@ export function Projects() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('/api/projects');
-      const data = await response.json();
+      const data = await fetchWithCache<{success: boolean, data: Project[]}>(
+        '/api/projects'
+      );
       
       if (data.success) {
         setProjects(data.data);
       } else {
         setError('Failed to load projects');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred while loading projects');
     } finally {
       setLoading(false);

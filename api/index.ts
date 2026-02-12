@@ -14,6 +14,13 @@ const setCors = (res: VercelResponse) => {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res)
+
+  // Add Edge Caching headers
+  // s-maxage: how long to keep in edge cache (1s)
+  // stale-while-revalidate: serve stale content while updating in background (59s)
+  if (req.method === 'GET') {
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=59')
+  }
   
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
@@ -65,8 +72,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       try {
         const result = await handleContactForm(req.body)
         return res.status(200).json({ success: true, message: result.message })
-      } catch (error: any) {
-        return res.status(400).json({ success: false, error: error.message })
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        return res.status(400).json({ success: false, error: errorMessage })
       }
     }
 

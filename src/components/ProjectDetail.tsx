@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { fetchWithCache } from "@/lib/api";
 
 interface ProjectImage {
   id: string;
@@ -44,15 +45,16 @@ export function ProjectDetail() {
 
   const fetchProject = async (projectId: string) => {
     try {
-      const response = await fetch(`/api/projects/${projectId}`);
-      const data = await response.json();
+      const data = await fetchWithCache<{success: boolean, data: Project}>(
+        `/api/projects/${projectId}`
+      );
       
       if (data.success) {
         setProject(data.data);
       } else {
         setError('Project not found');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred while loading the project');
     } finally {
       setLoading(false);

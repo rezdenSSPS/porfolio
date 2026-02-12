@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Actor&family=Aleo:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500&display=swap');
+@import "tailwindcss";
 
 :root {
   --background: oklch(0.9821 0 0);
@@ -170,7 +170,7 @@
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), sans-serif;
   letter-spacing: var(--tracking-normal);
   background-color: var(--background);
   color: var(--foreground);

@@ -15,6 +15,14 @@ const app = new Hono().basePath('/api')
 // Enable CORS
 app.use('*', cors())
 
+// Add Edge Caching headers middleware
+app.use('*', async (c, next) => {
+  if (c.req.method === 'GET') {
+    c.header('Cache-Control', 's-maxage=1, stale-while-revalidate=59')
+  }
+  await next()
+})
+
 // Get all projects
 app.get('/projects', async (c) => {
   try {
