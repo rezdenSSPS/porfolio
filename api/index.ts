@@ -379,24 +379,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       // Update images if provided
       if (images && Array.isArray(images)) {
+        console.log('Processing images for update:', images.length, 'images')
         // Delete existing images
         await db.delete(schema.projectImages).where(eq(schema.projectImages.projectId, segments[2]))
+        console.log('Deleted existing images')
         
         // Insert new images
         if (images.length > 0) {
           const validImages = images
-            .filter((img: any) => img.imageUrl || img.url) // Filter out images without URLs
+            .filter((img: any) => img.imageUrl || img.url)
             .map((img: any, idx: number) => ({
               projectId: segments[2],
-              imageUrl: img.imageUrl || img.url, // Support both field names
+              imageUrl: img.imageUrl || img.url,
               isPrimary: img.isPrimary || idx === 0,
               order: img.order ?? idx,
             }))
           
+          console.log('Valid images to insert:', validImages)
+          
           if (validImages.length > 0) {
-            await db.insert(schema.projectImages).values(validImages)
+            const insertedImages = await db.insert(schema.projectImages).values(validImages).returning()
+            console.log('Inserted images:', insertedImages)
           }
         }
+      } else {
+        console.log('No images to update - images:', images)
       }
 
       return res.status(200).json({
