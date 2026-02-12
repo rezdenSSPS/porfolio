@@ -302,14 +302,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }).returning()
 
       if (images && images.length > 0) {
-        await db.insert(schema.projectImages).values(
-          images.map((img: any, idx: number) => ({
+        const validImages = images
+          .filter((img: any) => img.imageUrl || img.url)
+          .map((img: any, idx: number) => ({
             projectId: project[0].id,
-            imageUrl: img.imageUrl,
-            isPrimary: idx === 0,
-            order: idx,
+            imageUrl: img.imageUrl || img.url,
+            isPrimary: img.isPrimary || idx === 0,
+            order: img.order ?? idx,
           }))
-        )
+        
+        if (validImages.length > 0) {
+          await db.insert(schema.projectImages).values(validImages)
+        }
       }
 
       return res.status(201).json({
@@ -353,14 +357,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         
         // Insert new images
         if (images.length > 0) {
-          await db.insert(schema.projectImages).values(
-            images.map((img: any, idx: number) => ({
+          const validImages = images
+            .filter((img: any) => img.imageUrl || img.url) // Filter out images without URLs
+            .map((img: any, idx: number) => ({
               projectId: segments[2],
-              imageUrl: img.imageUrl,
-              isPrimary: idx === 0,
-              order: idx,
+              imageUrl: img.imageUrl || img.url, // Support both field names
+              isPrimary: img.isPrimary || idx === 0,
+              order: img.order ?? idx,
             }))
-          )
+          
+          if (validImages.length > 0) {
+            await db.insert(schema.projectImages).values(validImages)
+          }
         }
       }
 
