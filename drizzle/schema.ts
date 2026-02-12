@@ -9,6 +9,7 @@ import {
   pgEnum,
   index
 } from 'drizzle-orm/pg-core'
+import { relations } from 'drizzle-orm'
 
 // Enums
 export const projectStatusEnum = pgEnum('project_status', [
@@ -57,6 +58,18 @@ export const projectImages = pgTable('project_images', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
   projectIdIdx: index('project_images_project_id_idx').on(table.projectId),
+}))
+
+// Define relations
+export const projectsRelations = relations(projects, ({ many }) => ({
+  images: many(projectImages),
+}))
+
+export const projectImagesRelations = relations(projectImages, ({ one }) => ({
+  project: one(projects, {
+    fields: [projectImages.projectId],
+    references: [projects.id],
+  }),
 }))
 
 // Type definitions

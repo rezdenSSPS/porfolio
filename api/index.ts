@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { db, schema, testConnection } from './lib/db.js'
-import { eq, desc, asc } from 'drizzle-orm'
+import { db, schema } from './lib/db.js'
+import { eq, desc, asc, sql } from 'drizzle-orm'
 import { handleContactForm } from './lib/contact.js'
 
 // CORS middleware
@@ -28,57 +28,96 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // GET /api/projects
     if (req.method === 'GET' && segments[0] === 'projects' && !segments[1]) {
-      // OPTIMIZED: Single query with join - avoids N+1 pattern
-      // Drizzle automatically handles the relationship query efficiently
-      const projectsData = await db.query.projects.findMany({
-        where: eq(schema.projects.status, 'COMPLETED'),
-        with: {
-          images: {
-            orderBy: asc(schema.projectImages.order),
-            columns: {
-              id: true,
-              imageUrl: true,
-              isPrimary: true,
-              order: true
-            }
-          }
-        },
-        orderBy: [
+      // Fetch projects
+      const projectsData = await db
+        .select({
+          id: schema.projects.id,
+          title: schema.projects.title,
+          category: schema.projects.category,
+          description: schema.projects.description,
+          imageUrl: schema.projects.imageUrl,
+          websiteUrl: schema.projects.websiteUrl,
+          technologies: schema.projects.technologies,
+          aiPrompt: schema.projects.aiPrompt,
+          status: schema.projects.status,
+          featured: schema.projects.featured,
+          order: schema.projects.order,
+          createdAt: schema.projects.createdAt,
+          updatedAt: schema.projects.updatedAt,
+        })
+        .from(schema.projects)
+        .where(eq(schema.projects.status, 'COMPLETED'))
+        .orderBy(
           desc(schema.projects.featured),
           asc(schema.projects.order),
           desc(schema.projects.createdAt)
-        ]
-      })
+        )
+
+      // Fetch all images for these projects
+      const projectIds = projectsData.map(p => p.id)
+      let imagesData: typeof schema.projectImages.$inferSelect[] = []
+      
+      if (projectIds.length > 0) {
+        imagesData = await db
+          .select({
+            id: schema.projectImages.id,
+            projectId: schema.projectImages.projectId,
+            imageUrl: schema.projectImages.imageUrl,
+            isPrimary: schema.projectImages.isPrimary,
+            order: schema.projectImages.order,
+            createdAt: schema.projectImages.createdAt,
+          })
+          .from(schema.projectImages)
+          .where(sql`${schema.projectImages.projectId} IN ${projectIds}`)
+          .orderBy(asc(schema.projectImages.order))
+      }
+
+      // Merge images into projects
+      const projectsWithImages = projectsData.map(project => ({
+        ...project,
+        images: imagesData.filter(img => img.projectId === project.id)
+      }))
 
       return res.status(200).json({
         success: true,
-        data: projectsData,
-        count: projectsData.length,
+        data: projectsWithImages,
+        count: projectsWithImages.length,
       })
     }
 
     // GET /api/projects/:id
     if (req.method === 'GET' && segments[0] === 'projects' && segments[1]) {
-      const project = await db.query.projects.findFirst({
-        where: eq(schema.projects.id, segments[1]),
-        with: {
-          images: {
-            orderBy: asc(schema.projectImages.order),
-            columns: {
-              id: true,
-              imageUrl: true,
-              isPrimary: true,
-              order: true
-            }
-          }
-        }
-      })
+      // Fetch single project
+      const project = await db
+        .select()
+        .from(schema.projects)
+        .where(eq(schema.projects.id, segments[1]))
+        .limit(1)
 
-      if (!project) {
+      if (!project || project.length === 0) {
         return res.status(404).json({ success: false, error: 'Project not found' })
       }
 
-      return res.status(200).json({ success: true, data: project })
+      // Fetch images for this project
+      const         images = await db
+        .select({
+          id: schema.projectImages.id,
+          imageUrl: schema.projectImages.imageUrl,
+          isPrimary: schema.projectImages.isPrimary,
+          order: schema.projectImages.order,
+          createdAt: schema.projectImages.createdAt,
+        })
+        .from(schema.projectImages)
+        .where(eq(schema.projectImages.projectId, segments[1]))
+        .orderBy(asc(schema.projectImages.order))
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          ...project[0],
+          images
+        }
+      })
     }
 
     // POST /api/contact
