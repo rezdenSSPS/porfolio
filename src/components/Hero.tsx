@@ -135,18 +135,7 @@ export function Hero() {
               variants={itemVariants}
               className="flex gap-12 pt-8 border-t border-border"
             >
-              <div>
-                <p className="text-3xl font-bold text-foreground">3+</p>
-                <p className="text-sm text-muted-foreground mt-1">Roky zkušeností</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-foreground">15+</p>
-                <p className="text-sm text-muted-foreground mt-1">Dokončených projektů</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-foreground">100%</p>
-                <p className="text-sm text-muted-foreground mt-1">Spokojených klientů</p>
-              </div>
+
             </motion.div>
           </motion.div>
 
@@ -177,6 +166,7 @@ export function Hero() {
                   animate={{ scale: isHovering ? 1.1 : 1 }}
                   transition={{ duration: 0.4 }}
                 />
+
 
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
