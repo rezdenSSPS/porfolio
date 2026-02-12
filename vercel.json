@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
-  "installCommand": "npm install",
   "builds": [
     {
       "src": "api/index.ts",
@@ -46,13 +42,5 @@
       "path": "/api/cron/keep-warm",
       "schedule": "*/4 * * * *"
     }
-  ],
-  "functions": {
-    "api/index.ts": {
-      "maxDuration": 10
-    },
-    "api/cron/keep-warm.ts": {
-      "maxDuration": 10
-    }
-  }
+  ]
 }
