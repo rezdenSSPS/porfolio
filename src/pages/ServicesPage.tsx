@@ -18,6 +18,7 @@ const services = [
       "Podpora a údržba",
     ],
     popular: false,
+    link: "/poptavka/web",
   },
   {
     title: "Mobilní Aplikace",
@@ -31,6 +32,7 @@ const services = [
       "App Store publikování",
     ],
     popular: true,
+    link: "/poptavka/app",
   },
   {
     title: "Individuální Projekt",
@@ -44,6 +46,7 @@ const services = [
       "Rozšíření funkcí",
     ],
     popular: false,
+    link: "/poptavka/custom",
   },
 ];
 
@@ -61,7 +64,7 @@ export function ServicesPage() {
             className="text-center mb-16"
           >
             <p className="text-sm font-semibold tracking-widest text-accent uppercase mb-4">
-              Služby
+              Nejoblíbenější webové stránky
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
               Každý projekt je jedinečný
@@ -106,7 +109,7 @@ export function ServicesPage() {
                   ))}
                 </ul>
 
-                <Link to="/contact">
+                <Link to={service.link} className="w-full">
                   <Button
                     className={`w-full ${
                       service.popular
@@ -114,7 +117,7 @@ export function ServicesPage() {
                         : "bg-secondary hover:bg-secondary/80 text-foreground border border-border"
                     }`}
                   >
-                    Zjistit cenu
+                    Zadat poptávku
                   </Button>
                 </Link>
               </motion.div>

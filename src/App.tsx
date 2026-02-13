@@ -14,6 +14,9 @@ import { AboutPage } from "@/pages/AboutPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
 import { ServicesPage } from "@/pages/ServicesPage";
 import { ContactPage } from "@/pages/ContactPage";
+import { WebovaAplikaceForm } from "@/pages/WebovaAplikaceForm";
+import { MobilniAplikaceForm } from "@/pages/MobilniAplikaceForm";
+import { IndividualniProjektForm } from "@/pages/IndividualniProjektForm";
 import { useEffect } from "react";
 import { prefetch } from "@/lib/api";
 
@@ -52,6 +55,9 @@ function App() {
             <Route path="/project/:id" element={<ProjectDetail />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/poptavka/web" element={<WebovaAplikaceForm />} />
+            <Route path="/poptavka/app" element={<MobilniAplikaceForm />} />
+            <Route path="/poptavka/custom" element={<IndividualniProjektForm />} />
           </Routes>
         </Router>
       </div>

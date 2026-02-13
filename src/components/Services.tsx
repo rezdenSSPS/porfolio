@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const services = [
   {
@@ -15,6 +16,7 @@ const services = [
       "Podpora a údržba",
     ],
     popular: false,
+    link: "/poptavka/web",
   },
   {
     title: "Mobilní Aplikace",
@@ -28,6 +30,7 @@ const services = [
       "App Store publikování",
     ],
     popular: true,
+    link: "/poptavka/app",
   },
   {
     title: "Individuální Projekt",
@@ -41,6 +44,7 @@ const services = [
       "Rozšíření funkcí",
     ],
     popular: false,
+    link: "/poptavka/custom",
   },
 ];
 
@@ -57,7 +61,7 @@ export function Services() {
           className="text-center mb-16"
         >
           <p className="text-sm font-semibold tracking-widest text-accent uppercase mb-4">
-            Služby
+            Nejoblíbenější webové stránky
           </p>
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
             Každý projekt je jedinečný
@@ -103,15 +107,17 @@ export function Services() {
                 ))}
               </ul>
 
-              <Button
-                className={`w-full ${
-                  service.popular
-                    ? "bg-primary hover:bg-primary/90 text-primary-foreground"
-                    : "bg-secondary hover:bg-secondary/80 text-foreground border border-border"
-                }`}
-              >
-                Zjistit cenu
-              </Button>
+              <Link to={service.link} className="w-full">
+                <Button
+                  className={`w-full ${
+                    service.popular
+                      ? "bg-primary hover:bg-primary/90 text-primary-foreground"
+                      : "bg-secondary hover:bg-secondary/80 text-foreground border border-border"
+                  }`}
+                >
+                  Zadat poptávku
+                </Button>
+              </Link>
             </motion.div>
           ))}
         </div>

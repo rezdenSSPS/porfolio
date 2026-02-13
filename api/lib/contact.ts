@@ -53,8 +53,8 @@ const sendCustomerConfirmation = async (
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
         }
         .header { 
-          background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); 
-          color: white; 
+          background: linear-gradient(135deg, #eab308 0%, #fbbf24 100%); 
+          color: #1e293b; 
           padding: 40px 30px; 
           text-align: center; 
         }
@@ -63,6 +63,11 @@ const sendCustomerConfirmation = async (
           font-size: 28px;
           font-weight: 700;
           letter-spacing: -0.5px;
+        }
+        .header .subtitle {
+          margin-top: 8px;
+          font-size: 14px;
+          opacity: 0.8;
         }
         .content { 
           padding: 40px 30px; 
@@ -78,13 +83,70 @@ const sendCustomerConfirmation = async (
           font-size: 16px;
           margin: 16px 0;
         }
+        .contact-box {
+          background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%);
+          border: 2px solid #eab308;
+          border-radius: 12px;
+          padding: 24px;
+          margin: 24px 0;
+        }
+        .contact-box h3 {
+          margin: 0 0 16px 0;
+          color: #92400e;
+          font-size: 16px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+        .contact-item {
+          display: flex;
+          align-items: center;
+          margin: 12px 0;
+          color: #1e293b;
+        }
+        .contact-item a {
+          color: #1e293b;
+          text-decoration: none;
+        }
+        .contact-item a:hover {
+          text-decoration: underline;
+        }
+        .contact-icon {
+          width: 24px;
+          height: 24px;
+          background: #eab308;
+          border-radius: 6px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 12px;
+          font-size: 12px;
+        }
+        .signature {
+          margin-top: 30px;
+          padding-top: 20px;
+          border-top: 2px solid #f1f5f9;
+        }
+        .signature-name {
+          font-size: 20px;
+          font-weight: 700;
+          color: #1e293b;
+        }
+        .signature-title {
+          color: #eab308;
+          font-weight: 600;
+          font-size: 14px;
+          margin-top: 4px;
+        }
         .footer { 
-          background: #f8fafc;
+          background: #1e293b;
           text-align: center; 
           padding: 24px 30px;
-          color: #64748b; 
+          color: #94a3b8; 
           font-size: 13px;
-          border-top: 1px solid #e2e8f0;
+        }
+        .footer a {
+          color: #eab308;
+          text-decoration: none;
         }
       </style>
     </head>
@@ -92,20 +154,35 @@ const sendCustomerConfirmation = async (
       <div class="wrapper">
         <div class="container">
           <div class="header">
-            <h1>Reznucek Portfolio</h1>
+            <h1>Děkuji za zprávu!</h1>
+            <div class="subtitle">Denis Řezníček | Vývojář</div>
           </div>
           <div class="content">
-            <h2>Děkujeme za Vaši zprávu!</h2>
-            <p>Dobrý den ${data.name},</p>
-            <p>děkuji za Váš zájem a zprávu. Vaši zprávu jsem obdržel a ozvu se Vám co nejdříve.</p>
-            <p>V případě naléhavosti mě neváhejte kontaktovat přímo na emailu níže.</p>
-            <p style="margin-top: 30px;">
-              S pozdravem,<br>
-              <strong>Reznucek</strong>
-            </p>
+            <h2>Dobrý den ${data.name},</h2>
+            <p>děkuji za Váš zájem a zprávu. Vaši poptávku jsem obdržel a ozvu se Vám co nejdříve, obvykle do 24 hodin.</p>
+            <p>V případě naléhavosti mě neváhejte kontaktovat přímo:</p>
+            
+            <div class="contact-box">
+              <h3>Kontakt</h3>
+              <div class="contact-item">
+                <span class="contact-icon">📧</span>
+                <a href="mailto:denis@reznicek.xyz">denis@reznicek.xyz</a>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon">📞</span>
+                <a href="tel:+420776523655">+420 776 523 655</a>
+              </div>
+            </div>
+            
+            <p>Těším se na naši spolupráci!</p>
+            
+            <div class="signature">
+              <div class="signature-name">Denis Řezníček</div>
+              <div class="signature-title">Web & Mobile Developer</div>
+            </div>
           </div>
           <div class="footer">
-            <p>&copy; 2026 Reznucek | Všechna práva vyhrazena</p>
+            <p>© 2026 Denis Řezníček | <a href="https://reznicek.xyz">reznicek.xyz</a></p>
           </div>
         </div>
       </div>
@@ -114,9 +191,9 @@ const sendCustomerConfirmation = async (
   `;
 
   await transporter.sendMail({
-    from: `"Reznucek Portfolio" <${process.env.SMTP_USER}>`,
+    from: `"Denis Řezníček" <${process.env.SMTP_USER}>`,
     to: data.email,
-    subject: 'Děkujeme za Váš zájem | Reznucek Portfolio',
+    subject: 'Děkuji za Vaši zprávu | Denis Řezníček',
     html,
   });
 };
