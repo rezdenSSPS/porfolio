@@ -85,13 +85,13 @@ export function ServicesPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`relative rounded-2xl border transition-all duration-300 flex flex-col ${
                   service.popular
-                    ? "p-10 md:p-12 bg-gradient-to-b from-primary/20 to-accent/20 border-primary scale-105 min-h-[480px] md:min-h-[520px]"
-                    : "p-8 bg-secondary/50 border-border hover:border-primary/50"
+                    ? "p-10 md:p-12 bg-gradient-to-b from-accent/20 to-accent/10 border-accent"
+                    : "p-8 bg-secondary/50 border-border hover:border-accent/50"
                 }`}
               >
                 {service.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="px-4 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-full">
+                    <span className="px-4 py-1 bg-accent text-accent-foreground text-xs font-bold rounded-full">
                       NEJOBLÍBENĚJŠÍ
                     </span>
                   </div>
@@ -113,7 +113,7 @@ export function ServicesPage() {
                   <Button
                     className={`w-full ${
                       service.popular
-                        ? "bg-primary hover:bg-primary/90 text-primary-foreground"
+                        ? "bg-accent hover:bg-accent/90 text-accent-foreground"
                         : "bg-secondary hover:bg-secondary/80 text-foreground border border-border"
                     }`}
                   >
