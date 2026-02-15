@@ -5,20 +5,6 @@ import { Link } from "react-router-dom";
 
 const services = [
   {
-    title: "Webová Aplikace",
-    description: "Moderní responzivní weby a webové aplikace na míru",
-    features: [
-      "Responzivní design",
-      "Moderní technologie",
-      "CMS systém",
-      "SEO optimalizace",
-      "Rychlé načítání",
-      "Podpora a údržba",
-    ],
-    popular: true,
-    link: "/poptavka/web",
-  },
-  {
     title: "Mobilní Aplikace",
     description: "Nativní a multiplatformní mobilní aplikace",
     features: [
@@ -31,6 +17,20 @@ const services = [
     ],
     popular: false,
     link: "/poptavka/app",
+  },
+  {
+    title: "Webová Aplikace",
+    description: "Moderní responzivní weby a webové aplikace na míru",
+    features: [
+      "Responzivní design",
+      "Moderní technologie",
+      "CMS systém",
+      "SEO optimalizace",
+      "Rychlé načítání",
+      "Podpora a údržba",
+    ],
+    popular: true,
+    link: "/poptavka/web",
   },
   {
     title: "Individuální Projekt",
