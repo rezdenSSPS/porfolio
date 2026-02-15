@@ -15,7 +15,7 @@ const services = [
       "Rychlé načítání",
       "Podpora a údržba",
     ],
-    popular: false,
+    popular: true,
     link: "/poptavka/web",
   },
   {
@@ -29,7 +29,7 @@ const services = [
       "Integrace API",
       "App Store publikování",
     ],
-    popular: true,
+    popular: false,
     link: "/poptavka/app",
   },
   {

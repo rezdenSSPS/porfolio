@@ -160,7 +160,7 @@ export function Hero() {
                 className="relative z-10 w-full max-w-md aspect-[3/4] rounded-[var(--radius)] overflow-hidden bg-secondary cursor-none"
               >
                 <motion.img
-                  src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1770832163/615768307_1592252328450020_3440170313654590281_n_qas5tj.jpg"
+                  src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb.jpg"
                   alt="Profilová fotografie"
                   className="w-full h-full object-cover"
                   animate={{ scale: isHovering ? 1.1 : 1 }}
@@ -172,7 +172,7 @@ export function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
                 {/* Custom Cursor - Arrow follows mouse */}
-                <div 
+                <div
                   className="absolute pointer-events-none z-20"
                   style={{
                     left: mousePosition.x - 24,
