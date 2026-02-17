@@ -78,6 +78,20 @@ export function Footer() {
           <p className="text-muted-foreground text-sm">
             {currentYear} Řezníček Denis Všechna práva vyhrazena.
           </p>
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            <a href="/zasady-ochrany-osobnich-udaju.html" className="text-muted-foreground hover:text-foreground transition-colors">
+              Ochrana osobních údajů
+            </a>
+            <a href="/obchodni-podminky.html" className="text-muted-foreground hover:text-foreground transition-colors">
+              Obchodní podmínky
+            </a>
+            <a href="/zasady-pouzivani-cookies.html" className="text-muted-foreground hover:text-foreground transition-colors">
+              Cookies
+            </a>
+            <a href="/gdpr-informace.html" className="text-muted-foreground hover:text-foreground transition-colors">
+              GDPR
+            </a>
+          </div>
           <p className="text-muted-foreground text-sm flex items-center">
             Vytvořeno s{" "}
             <motion.span
