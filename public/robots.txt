@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://denisreznicek.cz/sitemap.xml
+Sitemap: https://www.reznicek.xyz/sitemap.xml
 
 Disallow: /admin/
 Disallow: /admin/login

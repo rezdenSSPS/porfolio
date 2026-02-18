@@ -15,7 +15,7 @@ const DEFAULT_TITLE = 'Denis Řezníček | Web Designer & Developer';
 const DEFAULT_DESCRIPTION = 'Profesionální tvorba moderních webových stránek a aplikací na míru. React, Next.js, TypeScript. Pomáhám firmám růst v digitálním světě.';
 const DEFAULT_KEYWORDS = 'web designer, web developer, tvorba webových stránek, React, Next.js, TypeScript, Praha';
 const DEFAULT_OG_IMAGE = '/logo-dark.png';
-const SITE_URL = 'https://denisreznicek.cz';
+const SITE_URL = 'https://www.reznicek.xyz';
 
 export function SEO({
   title,

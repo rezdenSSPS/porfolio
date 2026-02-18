@@ -49,7 +49,7 @@ export interface ProjectSchema {
   author: string;
 }
 
-export const SITE_URL = 'https://denisreznicek.cz';
+export const SITE_URL = 'https://www.reznicek.xyz';
 
 export const organizationData: OrganizationSchema = {
   name: 'Denis Řezníček - Web Development',
