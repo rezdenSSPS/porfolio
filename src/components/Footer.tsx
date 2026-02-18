@@ -17,7 +17,7 @@ export function Footer() {
   const socialLinks = [
     { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/denis-řezníček-151b6a3ab", label: "LinkedIn" },
-    { icon: Github, href: "https://github.com", label: "GitHub" },
+    { icon: Github, href: "https://github.com/rezdenSSPS", label: "GitHub" },
   ];
 
   return (

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/SEO";
 
 const services = [
   {
@@ -54,7 +55,12 @@ export function ServicesPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16 min-h-screen">
+      <SEO 
+        title="Služby"
+        description="Nabízím tvorbu webových aplikací, mobilních aplikací a individuálních projektů na míru. React, Next.js, TypeScript, iOS, Android. Získejte profesionální webové řešení."
+        keywords="služby, tvorba webů, webová aplikace, mobilní aplikace, individuální projekt, cena, poptávka"
+      />
+      <main className="pt-24 pb-16 min-h-screen" role="main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Header */}
           <motion.div

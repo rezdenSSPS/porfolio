@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, Menu, X } from "lucide-react";
+import { Instagram, Linkedin, Github, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
@@ -22,6 +22,8 @@ export function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
+      role="navigation"
+      aria-label="Hlavní navigace"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -84,6 +86,16 @@ export function Navbar() {
                 whileTap={{ scale: 0.9 }}
               >
                 <Linkedin size={18} />
+              </motion.a>
+              <motion.a
+                href="https://github.com/rezdenSSPS"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Github size={18} />
               </motion.a>
             </div>
           </div>
@@ -150,6 +162,14 @@ export function Navbar() {
                 className="text-muted-foreground hover:text-foreground"
               >
                 <Linkedin size={20} />
+              </a>
+              <a
+                href="https://github.com/rezdenSSPS"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <Github size={20} />
               </a>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { fetchWithCache, prefetch } from "@/lib/api";
+import { SEO } from "@/components/SEO";
 
 interface Project {
   id: string;
@@ -170,7 +171,12 @@ export function ProjectsPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16 min-h-screen">
+      <SEO 
+        title="Projekty"
+        description="Moje portfolio webových projektů - React, Next.js, TypeScript aplikace. Prohlédněte si reference mé práce a realizační příklady."
+        keywords="portfolio, projekty, webová aplikace, React, Next.js, reference, realizace, práce"
+      />
+      <main className="pt-24 pb-16 min-h-screen" role="main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Header */}
           <motion.div

@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SEO } from "./SEO";
 import { fetchWithCache } from "@/lib/api";
 
 interface ProjectImage {
@@ -139,7 +140,13 @@ export function ProjectDetail() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-background pt-20">
+      <SEO 
+        title={`${project.title} - Projekt`}
+        description={project.description}
+        keywords={`${project.title}, ${project.category}, ${project.technologies.join(', ')}, projekt, realizace, webová aplikace`}
+        ogImage={project.imageUrl || undefined}
+      />
+      <main className="min-h-screen bg-background pt-20" role="main">
         {/* Back Button */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <motion.button

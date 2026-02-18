@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Send, Linkedin, Github } from "lucide-react";
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 
 export function ContactPage() {
   const [formData, setFormData] = useState({
@@ -69,7 +70,12 @@ export function ContactPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16 min-h-screen">
+      <SEO 
+        title="Kontakt"
+        description="Máte zájem o spolupráci nebo potřebujete nový web? Kontaktujte mě - Denis Řezníček, web designer a developer z Prahy. Email: denis@reznicek.xyz, Tel: +420 776 523 655."
+        keywords="kontakt, spolupráce, poptávka, web na míru, Praha, Denis Řezníček"
+      />
+      <main className="pt-24 pb-16 min-h-screen" role="main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Header */}
           <motion.div
@@ -137,7 +143,7 @@ export function ContactPage() {
                     <Linkedin className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors" />
                   </a>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/rezdenSSPS"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-12 h-12 bg-secondary/50 rounded-lg flex items-center justify-center border border-border hover:border-primary/50 hover:bg-secondary transition-all group"

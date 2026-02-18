@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
+import { SEO } from "./SEO";
 
 export function Hero() {
   const navigate = useNavigate();
@@ -67,8 +68,10 @@ export function Hero() {
   return (
     <section
       id="home"
+      aria-label="Hlavní sekce - Denis Řezníček Web Designer"
       className="min-h-screen flex items-center pt-16 bg-gradient-to-br from-card via-background to-secondary"
     >
+      <SEO />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
@@ -91,8 +94,8 @@ export function Hero() {
               variants={itemVariants}
               className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-[0.95] tracking-tight"
             >
-              <span className="block">JSEM</span>
-              <span className="block mt-2">WEB DESIGNER</span>
+              <span className="block">DENIS ŘEZNÍČEK</span>
+              <span className="block mt-2 text-accent">WEB DESIGNER & DEVELOPER</span>
             </motion.h1>
 
             {/* Description */}
@@ -161,7 +164,11 @@ export function Hero() {
               >
                 <motion.img
                   src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb.jpg"
-                  alt="Profilová fotografie"
+                  alt="Denis Řezníček - Profesionální web designer a developer z Prahy"
+                  width={400}
+                  height={533}
+                  loading="eager"
+                  fetchPriority="high"
                   className="w-full h-full object-cover"
                   animate={{ scale: isHovering ? 1.1 : 1 }}
                   transition={{ duration: 0.4 }}

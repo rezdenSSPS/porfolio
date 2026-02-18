@@ -1,12 +1,18 @@
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 
 export function AboutPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16 min-h-screen">
+      <SEO 
+        title="O mně"
+        description="Poznejte Denis Řezníčka - web designera a developera s více než 3 lety zkušeností. Specializace na React, Next.js, TypeScript a moderní webové technologie."
+        keywords="o mně, Denis Řezníček, web developer, React vývojář, Praha, zkušenosti"
+      />
+      <main className="pt-24 pb-16 min-h-screen" role="main">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Header */}
           <motion.div
@@ -48,7 +54,7 @@ export function AboutPage() {
                 transition={{ delay: 0.3 }}
                 className="text-xl text-foreground font-medium text-center"
               >
-                Ahoj! Jsem [Vaše jméno] a vítejte na mém portfoliu.
+                Ahoj! Jsem Denis Řezníček a vítejte na mém portfoliu.
               </motion.p>
 
               <motion.div

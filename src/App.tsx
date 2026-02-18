@@ -8,6 +8,7 @@ import { Services } from "@/components/Services";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { JsonLd } from "@/components/JsonLd";
 import AdminLogin from "@/components/AdminLogin";
 import AdminDashboard from "@/components/AdminDashboard";
 import { AboutPage } from "@/pages/AboutPage";
@@ -45,6 +46,7 @@ function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+        <JsonLd />
         <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://denisreznicek.cz/sitemap.xml
+
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /api/

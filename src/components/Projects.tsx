@@ -72,7 +72,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           >
             <img
               src={hasImage ? displayImage : 'https://via.placeholder.com/800x500?text=No+Image'}
-              alt={project.title}
+              alt={`${project.title} - ${project.category}`}
+              width={800}
+              height={500}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </motion.div>
