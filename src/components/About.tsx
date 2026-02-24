@@ -53,20 +53,31 @@ export function About() {
               Váš partner pro
               <span className="text-accent"> digitální úspěch</span>
             </h2>
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
+            <div className="mb-8 rounded-xl overflow-hidden shadow-lg">
+              <img
+                src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb.jpg"
+                alt="Denis Řezníček - Web Designer & Developer"
+                className="w-full h-64 sm:h-80 object-cover"
+              />
+            </div>
+            <div className="space-y-6 text-muted-foreground leading-relaxed">
               <p>
-                Jsem nadšenec do moderních webových technologií s vášní pro kreativní 
-                řešení. Už více než 3 roky pomáhám firmám a jednotlivcům budovat 
-                jejich online přítomnost.
+                Po cestě do světa webového vývoje jsem se dostal před více než třemi lety, 
+                kdy jsem zjistil, že kombinace kreativity a logiky je přesně to, co mě baví.
+                Od té doby jsem pomohl desítkám klientů vybudovat si silnou online přítomnost.
               </p>
               <p>
-                Každý projekt je pro mě příležitostí vytvořit něco unikátního a 
-                funkčního. Věřím, že dobrý web by měl nejen vypadat skvěle, ale 
-                také přinášet reálné výsledky.
+                Moje filosofie je jednoduchá – web by měl být nástroj, ne překážka. Proto 
+                se zaměřuju na to, aby každý projekt, na kterém pracuju, byl nejen vizuálně 
+                přitažlivý, ale hlavně funkční a přinášel reálné výsledky. Nejde mi o to 
+                udělat jen "hezky vypadající stránku", ale o řešení, které skutečně funguje.
               </p>
               <p>
-                Specializuji se na React ekosystém a moderní přístupy k vývoji, 
-                které zajišťují rychlé, bezpečné a škálovatelné řešení.
+                Specializuju se na React ekosystém, protože nabízí perfektní základ pro 
+                rychlé, bezpečné a škálovatelné aplikace. Používám Next.js, TypeScript 
+                a další moderní nástroje, abych dodával kód, na který se dá spolehnout.
+                Věřím v transparentní komunikaci a pravidelné zpětné vazby – jen tak vzniká 
+                dílo, které splní očekávání.
               </p>
             </div>
 

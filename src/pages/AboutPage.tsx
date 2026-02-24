@@ -36,17 +36,18 @@ export function AboutPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="prose prose-lg max-w-none"
           >
-            {/* Profile Image Placeholder */}
+            {/* Profile Image */}
             <div className="flex justify-center mb-12">
-              <div className="w-48 h-48 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 border-4 border-border overflow-hidden">
-                {/* Add your profile image here */}
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  <span className="text-6xl">👤</span>
-                </div>
+              <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-border shadow-lg">
+                <img
+                  src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb.jpg"
+                  alt="Denis Řezníček - Web Designer & Developer"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
 
-            {/* About Text - Customize this section */}
+            {/* About Text */}
             <div className="space-y-6 text-muted-foreground leading-relaxed">
               <motion.p
                 initial={{ opacity: 0 }}
@@ -54,7 +55,7 @@ export function AboutPage() {
                 transition={{ delay: 0.3 }}
                 className="text-xl text-foreground font-medium text-center"
               >
-                Ahoj! Jsem Denis Řezníček a vítejte na mém portfoliu.
+                Ahoj! Jsem Denis a vítejte na mém portfoliu.
               </motion.p>
 
               <motion.div
@@ -65,8 +66,11 @@ export function AboutPage() {
               >
                 <h2 className="text-2xl font-bold text-foreground mb-4">Moje cesta</h2>
                 <p>
-                  Zde můžete napsat o své cestě do světa webového vývoje. Kdy jste začali, 
-                  co vás motivovalo, jaké byly vaše první kroky...
+                  Do světa webového vývoje jsem se dostal před více než třemi lety, 
+                  kdy jsem zjistil, že kombinace kreativity a logiky je přesně to, co mě baví.
+                  Od té doby jsem pomohl desítkám klientů vybudovat si silnou online přítomnost.
+                  Začínal jsem jako samouk, postupně jsem prošel kurzy a praxí, až jsem se 
+                  dostal k profesionálnímu webovému vývoji.
                 </p>
               </motion.div>
 
@@ -78,8 +82,11 @@ export function AboutPage() {
               >
                 <h2 className="text-2xl font-bold text-foreground mb-4">Co mě baví</h2>
                 <p>
-                  Zde můžete napsat o svých zájmech a vášních. Jaké technologie vás zajímají, 
-                  co děláte ve volném čase, jaké máte koníčky...
+                  Baví mě celý proces od nápadu po fungující web. Největší radost mi dělá 
+                  vidět, když projekt začne fungovat a přináší klientovi reálné výsledky.
+                  Specializuju se na React ekosystém – Next.js, TypeScript a moderní nástroje,
+                  které umožňují stavět rychlé a spolehlivé aplikace. Neustále se učím 
+                  nové věci a sleduju nejnovější trendy ve vývoji.
                 </p>
               </motion.div>
 
@@ -89,10 +96,12 @@ export function AboutPage() {
                 transition={{ delay: 0.6 }}
                 className="bg-secondary/50 rounded-xl p-8 border border-border"
               >
-                <h2 className="text-2xl font-bold text-foreground mb-4">Moje hodnoty</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-4">Jak pracuju</h2>
                 <p>
-                  Zde můžete napsat o svých hodnotách a přístupu k práci. Co je pro vás důležité, 
-                  jak přistupujete k projektům, co můžete nabídnout klientům...
+                  Věřím v transparentní komunikaci a pravidelné zpětné vazby. Každý projekt 
+                  beru jako partnerství – moje práce není hotová předáním kódu, ale tehdy, 
+                  když klient dosáhne svých cílů. Proto dbám na to, aby weby nejen skvěle 
+                  vypadaly, ale hlavně fungovaly a přinášely hodnotu.
                 </p>
               </motion.div>
 
