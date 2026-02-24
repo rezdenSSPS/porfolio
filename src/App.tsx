@@ -1,25 +1,35 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
-import { ProjectDetail } from "@/components/ProjectDetail";
 import { About } from "@/components/About";
 import { Services } from "@/components/Services";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { JsonLd } from "@/components/JsonLd";
-import AdminLogin from "@/components/AdminLogin";
-import AdminDashboard from "@/components/AdminDashboard";
-import { AboutPage } from "@/pages/AboutPage";
-import { ProjectsPage } from "@/pages/ProjectsPage";
-import { ServicesPage } from "@/pages/ServicesPage";
-import { ContactPage } from "@/pages/ContactPage";
-import { WebovaAplikaceForm } from "@/pages/WebovaAplikaceForm";
-import { MobilniAplikaceForm } from "@/pages/MobilniAplikaceForm";
-import { IndividualniProjektForm } from "@/pages/IndividualniProjektForm";
-import { useEffect } from "react";
+import { Analytics } from "@/components/Analytics";
 import { prefetch } from "@/lib/api";
+
+const ProjectDetail = lazy(() => import("@/components/ProjectDetail").then(m => ({ default: m.ProjectDetail })));
+const AdminLogin = lazy(() => import("@/components/AdminLogin").then(m => ({ default: m.default })));
+const AdminDashboard = lazy(() => import("@/components/AdminDashboard").then(m => ({ default: m.default })));
+const AboutPage = lazy(() => import("@/pages/AboutPage").then(m => ({ default: m.AboutPage })));
+const ProjectsPage = lazy(() => import("@/pages/ProjectsPage").then(m => ({ default: m.ProjectsPage })));
+const ServicesPage = lazy(() => import("@/pages/ServicesPage").then(m => ({ default: m.ServicesPage })));
+const ContactPage = lazy(() => import("@/pages/ContactPage").then(m => ({ default: m.ContactPage })));
+const WebovaAplikaceForm = lazy(() => import("@/pages/WebovaAplikaceForm").then(m => ({ default: m.WebovaAplikaceForm })));
+const MobilniAplikaceForm = lazy(() => import("@/pages/MobilniAplikaceForm").then(m => ({ default: m.MobilniAplikaceForm })));
+const IndividualniProjektForm = lazy(() => import("@/pages/IndividualniProjektForm").then(m => ({ default: m.IndividualniProjektForm })));
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent"></div>
+    </div>
+  );
+}
 
 function HomePage() {
   useEffect(() => {
@@ -47,8 +57,10 @@ function App() {
     <ThemeProvider>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
         <JsonLd />
+        <Analytics />
         <Router>
-          <Routes>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
@@ -60,7 +72,8 @@ function App() {
             <Route path="/poptavka/web" element={<WebovaAplikaceForm />} />
             <Route path="/poptavka/app" element={<MobilniAplikaceForm />} />
             <Route path="/poptavka/custom" element={<IndividualniProjektForm />} />
-          </Routes>
+            </Routes>
+          </Suspense>
         </Router>
       </div>
     </ThemeProvider>

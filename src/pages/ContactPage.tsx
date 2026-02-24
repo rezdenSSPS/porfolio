@@ -40,7 +40,7 @@ export function ContactPage() {
         setFormStatus('error');
         setFormError(result.error || 'Nepodařilo se odeslat zprávu');
       }
-    } catch (error) {
+    } catch {
       setFormStatus('error');
       setFormError('Nepodařilo se odeslat zprávu. Zkuste to prosím znovu.');
     }
