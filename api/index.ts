@@ -177,10 +177,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // POST /api/contact
     if (req.method === 'POST' && segments[0] === 'contact') {
       try {
-        const result = await handleContactForm(req.body)
+        const body = await parseJsonBody(req)
+        const result = await handleContactForm(body)
         return res.status(200).json({ success: true, message: result.message })
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Contact form error:', errorMessage);
         return res.status(400).json({ success: false, error: errorMessage })
       }
     }

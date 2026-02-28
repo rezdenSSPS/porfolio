@@ -86,12 +86,22 @@ async function main() {
   const envContent = fs.readFileSync(envPath, 'utf8')
   const hasCronSecret = envContent.includes('CRON_SECRET=') && 
                         !envContent.includes('CRON_SECRET="your-generated-secret-here"')
+  const hasSmtpUser = envContent.includes('SMTP_USER=') && 
+                      !envContent.includes('SMTP_USER="your_email@example.com"')
+  const hasSmtpPass = envContent.includes('SMTP_PASS=') && 
+                      !envContent.includes('SMTP_PASS="your_smtp_password_here"')
   
   if (hasCronSecret) {
-    log('✅ CRON_SECRET is configured\n', 'green')
+    log('✅ CRON_SECRET is configured', 'green')
   } else {
     log('⚠️  CRON_SECRET not found or is using default value', 'yellow')
-    log('   Your .env file has been updated with a secure CRON_SECRET\n', 'blue')
+  }
+  
+  if (hasSmtpUser && hasSmtpPass) {
+    log('✅ SMTP credentials are configured\n', 'green')
+  } else {
+    log('⚠️  SMTP_USER or SMTP_PASS not properly configured', 'yellow')
+    log('   Contact form will not work until you add these to Vercel\n', 'blue')
   }
 
   // Summary
