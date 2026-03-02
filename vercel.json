@@ -23,6 +23,20 @@
       }
     }
   ],
+  "rewrites": [
+    {
+      "source": "/api/cron/keep-warm",
+      "destination": "/api/cron/keep-warm.ts"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
+    },
+    {
+      "source": "/((?!api|assets|.*\\..*).*)",
+      "destination": "/index.html"
+    }
+  ],
   "redirects": [
     {
       "source": "/:path*",
@@ -34,20 +48,6 @@
       ],
       "destination": "https://www.reznicek.xyz/:path*",
       "permanent": true
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/cron/keep-warm",
-      "dest": "/api/cron/keep-warm.ts"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.ts"
-    },
-    {
-      "src": "/[^.]+",
-      "dest": "/index.html"
     }
   ],
   "headers": [
@@ -74,24 +74,6 @@
     },
     {
       "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*).js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*).css",
       "headers": [
         {
           "key": "Cache-Control",
