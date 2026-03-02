@@ -21,12 +21,12 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-background border-t border-border">
+    <footer className="bg-background border-t border-border" role="contentinfo">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link to="/">
+            <Link to="/" aria-label="Denis Řezníček - Domovská stránka">
               <Logo height={120} />
             </Link>
             <p className="text-muted-foreground mt-4 max-w-sm">
@@ -36,7 +36,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <nav aria-label="Rychlé odkazy">
             <h4 className="text-foreground font-semibold mb-4">Rychlé odkazy</h4>
             <ul className="space-y-2">
               {footerLinks.map((link) => (
@@ -50,7 +50,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Social */}
           <div>
@@ -62,11 +62,12 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-secondary/50 rounded-lg flex items-center justify-center border border-border hover:border-primary/50 hover:bg-secondary transition-all"
+                  className="w-10 h-10 bg-secondary/50 rounded-lg flex items-center justify-center border border-border hover:border-primary/50 hover:bg-secondary transition-all will-change-transform"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
+                  aria-label={`Navštívit ${social.label} profil`}
                 >
-                  <social.icon className="w-5 h-5 text-muted-foreground" />
+                  <social.icon className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
                 </motion.a>
               ))}
             </div>
@@ -78,7 +79,7 @@ export function Footer() {
           <p className="text-muted-foreground text-sm">
             {currentYear} Řezníček Denis Všechna práva vyhrazena.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 text-sm">
+          <nav className="flex flex-wrap justify-center gap-4 text-sm" aria-label="Právní dokumenty">
             <a href="/zasady-ochrany-osobnich-udaju.html" className="text-muted-foreground hover:text-foreground transition-colors">
               Ochrana osobních údajů
             </a>
@@ -91,15 +92,18 @@ export function Footer() {
             <a href="/gdpr-informace.html" className="text-muted-foreground hover:text-foreground transition-colors">
               GDPR
             </a>
-          </div>
+          </nav>
           <p className="text-muted-foreground text-sm flex items-center">
             Vytvořeno s{" "}
             <motion.span
+              className="will-change-transform"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity }}
+              aria-hidden="true"
             >
               <Heart className="w-4 h-4 text-red-500 mx-1 fill-current" />
             </motion.span>
+            <span className="sr-only">láskou</span>
             {" "}v České republice
           </p>
         </div>

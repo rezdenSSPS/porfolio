@@ -16,6 +16,17 @@ interface Project {
   featured: boolean;
 }
 
+// Helper to optimize Cloudinary URLs
+function getOptimizedCloudinaryUrl(url: string, width: number = 800): string {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  
+  // Insert transformation parameters after /upload/
+  return url.replace(
+    '/upload/',
+    `/upload/f_auto,q_auto,w_${width}/`
+  );
+}
+
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const navigate = useNavigate();
   const imageContainerRef = useRef<HTMLButtonElement>(null);
@@ -44,11 +55,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const handleMouseLeave = () => setIsHovering(false);
 
   const hasWebsite = project.websiteUrl && project.websiteUrl !== '#';
-  const displayImage = project.imageUrl || project.images?.[0]?.url || project.images?.[0]?.imageUrl || '';
-  const hasImage = displayImage !== '';
+  const rawImageUrl = project.imageUrl || project.images?.[0]?.url || project.images?.[0]?.imageUrl || '';
+  const hasImage = rawImageUrl !== '';
+  
+  // Get optimized image URLs for different sizes
+  const displayImage = hasImage ? getOptimizedCloudinaryUrl(rawImageUrl, 800) : '';
+  const displayImageSmall = hasImage ? getOptimizedCloudinaryUrl(rawImageUrl, 400) : '';
 
   return (
-    <motion.div
+    <motion.article
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
@@ -64,21 +79,29 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-muted to-secondary block w-full cursor-none"
+          aria-label={`Zobrazit detail projektu ${project.title}`}
         >
           <motion.div
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex items-center justify-center will-change-transform"
             animate={{ scale: isHovering ? 1.1 : 1 }}
             transition={{ duration: 0.4 }}
           >
-            <img
-              src={hasImage ? displayImage : 'https://via.placeholder.com/800x500?text=No+Image'}
-              alt={`${project.title} - ${project.category}`}
-              width={800}
-              height={500}
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover"
-            />
+            <picture>
+              <source
+                media="(max-width: 640px)"
+                srcSet={hasImage ? `${displayImageSmall} 1x, ${displayImage} 2x` : undefined}
+              />
+              <img
+                src={hasImage ? displayImage : 'https://via.placeholder.com/800x500?text=No+Image'}
+                alt={`${project.title} - ${project.category}`}
+                width={800}
+                height={500}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover"
+                style={{ aspectRatio: '16/10' }}
+              />
+            </picture>
           </motion.div>
           
           {/* Category Badge */}
@@ -98,6 +121,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               transform: `scale(${isHovering ? 1 : 0.5})`,
               transition: 'opacity 0.15s ease-out, transform 0.15s ease-out',
             }}
+            aria-hidden="true"
           >
             <span className="p-3 bg-white text-black rounded-full flex items-center justify-center shadow-lg">
               <ArrowUpRight size={20} />
@@ -116,10 +140,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
           {/* Technologies */}
           {project.technologies.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-4" role="list" aria-label="Použité technologie">
               {project.technologies.map((tech) => (
                 <span
                   key={tech}
+                  role="listitem"
                   className="px-2 py-1 text-xs bg-secondary text-foreground rounded border border-border"
                 >
                   {tech}
@@ -135,16 +160,17 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center text-sm text-foreground hover:text-accent transition-colors group/link"
+              aria-label={`Navštívit web projektu ${project.title}`}
             >
               <span className="border-b border-transparent group-hover/link:border-accent transition-all">
                 Navstivit web
               </span>
-              <ExternalLink size={14} className="ml-2 group-hover/link:translate-x-1 transition-transform" />
+              <ExternalLink size={14} className="ml-2 group-hover/link:translate-x-1 transition-transform" aria-hidden="true" />
             </a>
           )}
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
 
@@ -177,10 +203,12 @@ export function Projects() {
 
   if (loading) {
     return (
-      <section id="projects" className="py-24 bg-background">
+      <section id="projects" className="py-24 bg-background" aria-busy="true" aria-label="Načítání projektů">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-t-4 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-t-4 border-blue-600" role="status">
+              <span className="sr-only">Načítání projektů...</span>
+            </div>
           </div>
         </div>
       </section>
@@ -189,15 +217,15 @@ export function Projects() {
 
   if (error) {
     return (
-      <section id="projects" className="py-24 bg-background">
+      <section id="projects" className="py-24 bg-background" aria-label="Chyba načítání">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-12">
-            <p className="text-red-500 mb-4">{error}</p>
+            <p className="text-red-500 mb-4" role="alert">{error}</p>
             <button 
               onClick={fetchProjects}
               className="text-blue-600 hover:text-blue-800 underline"
             >
-              Try Again
+              Zkusit znovu
             </button>
           </div>
         </div>
@@ -206,7 +234,7 @@ export function Projects() {
   }
 
   return (
-    <section id="projects" className="py-24 bg-background">
+    <section id="projects" className="py-24 bg-background" aria-labelledby="projects-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -219,7 +247,7 @@ export function Projects() {
           <p className="text-sm font-semibold tracking-widest text-accent uppercase mb-4">
             Portfolio
           </p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
+          <h2 id="projects-heading" className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
             Moje Projekty
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">

@@ -5,6 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { SEO } from "./SEO";
 
+// Cloudinary optimized image URLs with responsive sizes
+const heroImageBase = "https://res.cloudinary.com/dg3rfqbvz/image/upload";
+const heroImageId = "v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb";
+const getOptimizedImageUrl = (width: number) => 
+  `${heroImageBase}/f_auto,q_auto,w_${width}/${heroImageId}.jpg`;
+
 export function Hero() {
   const navigate = useNavigate();
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -162,17 +168,30 @@ export function Hero() {
                 onMouseLeave={handleMouseLeave}
                 className="relative z-10 w-full max-w-md aspect-[3/4] rounded-[var(--radius)] overflow-hidden bg-secondary cursor-none"
               >
-                <motion.img
-                  src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb.jpg"
-                  alt="Denis Řezníček - Profesionální web designer a developer z Prahy"
-                  width={400}
-                  height={533}
-                  loading="eager"
-                  fetchPriority="high"
-                  className="w-full h-full object-cover"
-                  animate={{ scale: isHovering ? 1.1 : 1 }}
-                  transition={{ duration: 0.4 }}
-                />
+                <picture>
+                  <source
+                    media="(max-width: 640px)"
+                    srcSet={`${getOptimizedImageUrl(300)} 1x, ${getOptimizedImageUrl(600)} 2x`}
+                  />
+                  <source
+                    media="(max-width: 1024px)"
+                    srcSet={`${getOptimizedImageUrl(400)} 1x, ${getOptimizedImageUrl(800)} 2x`}
+                  />
+                  <motion.img
+                    src={getOptimizedImageUrl(400)}
+                    srcSet={`${getOptimizedImageUrl(400)} 1x, ${getOptimizedImageUrl(800)} 2x`}
+                    alt="Denis Řezníček - Profesionální web designer a developer z Prahy"
+                    width={400}
+                    height={533}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    className="w-full h-full object-cover"
+                    style={{ contentVisibility: 'auto' }}
+                    animate={{ scale: isHovering ? 1.1 : 1 }}
+                    transition={{ duration: 0.4 }}
+                  />
+                </picture>
 
 
                 {/* Overlay gradient */}
@@ -190,7 +209,7 @@ export function Hero() {
                   }}
                 >
                   <span className="p-3 bg-white text-black rounded-full flex items-center justify-center shadow-lg">
-                    <ArrowUpRight size={20} />
+                    <ArrowUpRight size={20} aria-hidden="true" />
                   </span>
                 </div>
               </motion.div>
@@ -215,6 +234,7 @@ export function Hero() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.5 }}
+        aria-hidden="true"
       >
         <motion.div
           className="w-6 h-10 border-2 border-border rounded-full flex justify-center pt-2"

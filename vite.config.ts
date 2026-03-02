@@ -12,6 +12,32 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Enable source maps for debugging
+    sourcemap: true,
+    // Optimize chunk splitting for better caching
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor chunks for better caching
+          'react-vendor': ['react', 'react-dom'],
+          'router': ['react-router-dom'],
+          'framer': ['framer-motion'],
+          'ui': ['lucide-react', 'clsx', 'tailwind-merge', 'class-variance-authority'],
+        },
+      },
+    },
+    // Reduce chunk size warnings threshold
+    chunkSizeWarningLimit: 500,
+    // Use esbuild for minification (faster and built-in)
+    minify: 'esbuild',
+    // Target modern browsers for smaller bundles
+    target: 'es2020',
+  },
+  // Optimize dependencies
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
+  },
   server: {
     proxy: {
       '/api': {

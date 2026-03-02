@@ -32,7 +32,7 @@ export function Navbar() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center" aria-label="Denis Řezníček - Domovská stránka">
               <Logo height={120} />
             </Link>
           </motion.div>
@@ -57,13 +57,13 @@ export function Navbar() {
             ))}
 
             {/* Divider */}
-            <div className="h-4 w-px bg-border" />
+            <div className="h-4 w-px bg-border" aria-hidden="true" />
 
             {/* Theme Toggle */}
             <ThemeToggle />
 
             {/* Divider */}
-            <div className="h-4 w-px bg-border" />
+            <div className="h-4 w-px bg-border" aria-hidden="true" />
 
             {/* Social Icons */}
             <div className="flex items-center space-x-4">
@@ -74,8 +74,9 @@ export function Navbar() {
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 whileHover={{ scale: 1.2, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label="Navštívit Instagram profil"
               >
-                <Instagram size={18} />
+                <Instagram size={18} aria-hidden="true" />
               </motion.a>
               <motion.a
                 href="https://www.linkedin.com/in/denis-řezníček-151b6a3ab"
@@ -84,8 +85,9 @@ export function Navbar() {
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 whileHover={{ scale: 1.2, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label="Navštívit LinkedIn profil"
               >
-                <Linkedin size={18} />
+                <Linkedin size={18} aria-hidden="true" />
               </motion.a>
               <motion.a
                 href="https://github.com/rezdenSSPS"
@@ -94,8 +96,9 @@ export function Navbar() {
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 whileHover={{ scale: 1.2, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label="Navštívit GitHub profil"
               >
-                <Github size={18} />
+                <Github size={18} aria-hidden="true" />
               </motion.a>
             </div>
           </div>
@@ -105,13 +108,17 @@ export function Navbar() {
             className="md:hidden text-foreground p-2"
             onClick={() => setIsOpen(!isOpen)}
             whileTap={{ scale: 0.9 }}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+            aria-label={isOpen ? "Zavřít menu" : "Otevřít menu"}
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
           </motion.button>
         </div>
 
         {/* Mobile Navigation */}
         <motion.div
+          id="mobile-menu"
           initial={false}
           animate={{ 
             height: isOpen ? "auto" : 0,
@@ -119,6 +126,7 @@ export function Navbar() {
           }}
           transition={{ duration: 0.3 }}
           className="md:hidden overflow-hidden"
+          aria-hidden={!isOpen}
         >
           <div className="py-4 space-y-4">
             {navLinks.map((link, index) => (
@@ -135,6 +143,7 @@ export function Navbar() {
                   to={link.href}
                   className="block text-muted-foreground hover:text-foreground transition-colors"
                   onClick={() => setIsOpen(false)}
+                  tabIndex={isOpen ? 0 : -1}
                 >
                   {link.name}
                 </Link>
@@ -152,24 +161,30 @@ export function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground"
+                aria-label="Navštívit Instagram profil"
+                tabIndex={isOpen ? 0 : -1}
               >
-                <Instagram size={20} />
+                <Instagram size={20} aria-hidden="true" />
               </a>
               <a
                 href="https://www.linkedin.com/in/denis-řezníček-151b6a3ab"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground"
+                aria-label="Navštívit LinkedIn profil"
+                tabIndex={isOpen ? 0 : -1}
               >
-                <Linkedin size={20} />
+                <Linkedin size={20} aria-hidden="true" />
               </a>
               <a
                 href="https://github.com/rezdenSSPS"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground"
+                aria-label="Navštívit GitHub profil"
+                tabIndex={isOpen ? 0 : -1}
               >
-                <Github size={20} />
+                <Github size={20} aria-hidden="true" />
               </a>
             </div>
           </div>

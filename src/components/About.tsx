@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
 import { Code, Palette, Rocket, Users, Zap, Globe } from "lucide-react";
 
+// Cloudinary optimized image URL
+const aboutImageBase = "https://res.cloudinary.com/dg3rfqbvz/image/upload";
+const aboutImageId = "v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb";
+const getOptimizedImageUrl = (width: number) => 
+  `${aboutImageBase}/f_auto,q_auto,w_${width}/${aboutImageId}.jpg`;
+
 const skills = [
   {
     icon: Code,
@@ -54,11 +60,23 @@ export function About() {
               <span className="text-accent"> digitální úspěch</span>
             </h2>
             <div className="mb-8 rounded-xl overflow-hidden shadow-lg">
-              <img
-                src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb.jpg"
-                alt="Denis Řezníček - Web Designer & Developer"
-                className="w-full h-64 sm:h-80 object-cover"
-              />
+              <picture>
+                <source
+                  media="(max-width: 640px)"
+                  srcSet={`${getOptimizedImageUrl(400)} 1x, ${getOptimizedImageUrl(800)} 2x`}
+                />
+                <img
+                  src={getOptimizedImageUrl(600)}
+                  srcSet={`${getOptimizedImageUrl(600)} 1x, ${getOptimizedImageUrl(1200)} 2x`}
+                  alt="Denis Řezníček - Web Designer & Developer"
+                  width={600}
+                  height={320}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-64 sm:h-80 object-cover"
+                  style={{ aspectRatio: '600/320' }}
+                />
+              </picture>
             </div>
             <div className="space-y-6 text-muted-foreground leading-relaxed">
               <p>
@@ -90,7 +108,7 @@ export function About() {
                 </div>
                 <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 will-change-transform"
                     initial={{ width: 0 }}
                     whileInView={{ width: "95%" }}
                     viewport={{ once: true }}
@@ -105,7 +123,7 @@ export function About() {
                 </div>
                 <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 will-change-transform"
                     initial={{ width: 0 }}
                     whileInView={{ width: "85%" }}
                     viewport={{ once: true }}
@@ -120,7 +138,7 @@ export function About() {
                 </div>
                 <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 will-change-transform"
                     initial={{ width: 0 }}
                     whileInView={{ width: "75%" }}
                     viewport={{ once: true }}
@@ -148,7 +166,7 @@ export function About() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="group p-6 bg-secondary/50 rounded-xl border border-border hover:border-primary/50 hover:bg-secondary transition-all duration-300"
               >
-                <skill.icon className="w-10 h-10 text-accent mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <skill.icon className="w-10 h-10 text-accent mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">{skill.title}</h3>
                 <p className="text-sm text-muted-foreground">{skill.description}</p>
               </motion.div>
