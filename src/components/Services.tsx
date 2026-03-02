@@ -101,7 +101,7 @@ export function Services() {
               <ul className="space-y-3 mb-8">
                 {service.features.map((feature) => (
                   <li key={feature} className="flex items-center text-foreground">
-                    <Check className="w-5 h-5 text-accent mr-3 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-accent mr-3 flex-shrink-0" aria-hidden="true" />
                     <span className="text-sm">{feature}</span>
                   </li>
                 ))}

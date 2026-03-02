@@ -49,18 +49,21 @@ export function Contact() {
       label: "Email",
       value: "Denis@Reznicek.xyz",
       href: "mailto:denis@reznicek.xyz",
+      ariaLabel: "Poslat email na Denis@Reznicek.xyz",
     },
     {
       icon: Phone,
       label: "Telefon",
       value: "+420 776 523 655",
       href: "tel:+420776523655",
+      ariaLabel: "Zavolat na +420 776 523 655",
     },
     {
       icon: MapPin,
       label: "Lokalita",
       value: "Praha, Česká republika",
-      href: "#",
+      href: "https://maps.google.com/?q=Praha,Česká+republika",
+      ariaLabel: "Zobrazit lokaci Praha, Česká republika na mapě",
     },
   ];
 
@@ -132,16 +135,18 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 bg-secondary/50 rounded-lg flex items-center justify-center border border-border hover:border-primary/50 hover:bg-secondary transition-all group"
+                  aria-label="Navštívit LinkedIn profil"
                 >
-                  <Linkedin className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors" />
+                  <Linkedin className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors" aria-hidden="true" />
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/rezdenSSPS"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 bg-secondary/50 rounded-lg flex items-center justify-center border border-border hover:border-primary/50 hover:bg-secondary transition-all group"
+                  aria-label="Navštívit GitHub profil"
                 >
-                  <Github className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  <Github className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" aria-hidden="true" />
                 </a>
               </div>
             </div>
