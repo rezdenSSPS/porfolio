@@ -54,7 +54,7 @@ function AdminDashboard() {
   const checkAuth = () => {
     const token = localStorage.getItem('adminToken');
     if (!token) {
-      window.location.href = '/#/admin/login';
+      window.location.href = '/admin/login';
     }
   };
 
@@ -82,7 +82,7 @@ function AdminDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
-    window.location.href = '/#/admin/login';
+    window.location.href = '/admin/login';
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

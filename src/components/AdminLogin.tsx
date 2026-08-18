@@ -23,7 +23,7 @@ function AdminLogin() {
 
       if (data.success) {
         localStorage.setItem('adminToken', data.token);
-        window.location.href = '/#/admin';
+        window.location.href = '/admin';
       } else {
         setError(data.message || 'Invalid password');
       }
@@ -93,7 +93,7 @@ function AdminLogin() {
         </form>
 
         <div className="text-center">
-          <a href="/#/" className="text-sm text-blue-600 hover:text-blue-500">
+          <a href="/" className="text-sm text-blue-600 hover:text-blue-500">
             ← Back to Portfolio
           </a>
         </div>
