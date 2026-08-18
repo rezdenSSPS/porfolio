@@ -272,3 +272,20 @@ button, a, input, textarea {
 .will-change-opacity {
   will-change: opacity;
 }
+
+/* Infinite marquee for the projects showcase */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}

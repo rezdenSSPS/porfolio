@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { ExternalLink, ArrowUpRight } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { ExternalLink } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchWithCache, prefetch } from "@/lib/api";
 
@@ -16,161 +16,99 @@ interface Project {
   featured: boolean;
 }
 
-// Helper to optimize Cloudinary URLs
-function getOptimizedCloudinaryUrl(url: string, width: number = 800): string {
+// Helper to optimize Cloudinary URLs (passes through non-Cloudinary URLs such
+// as the DB-served /api/images/:id paths).
+function getOptimizedCloudinaryUrl(url: string, width: number = 600): string {
   if (!url || !url.includes('cloudinary.com')) return url;
-  
-  // Insert transformation parameters after /upload/
-  return url.replace(
-    '/upload/',
-    `/upload/f_auto,q_auto,w_${width}/`
-  );
+  return url.replace('/upload/', `/upload/f_auto,q_auto,w_${width}/`);
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project }: { project: Project }) {
   const navigate = useNavigate();
-  const imageContainerRef = useRef<HTMLButtonElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
 
-  const handleImageClick = () => {
-    navigate(`/project/${project.id}`);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (imageContainerRef.current) {
-      const rect = imageContainerRef.current.getBoundingClientRect();
-      setMousePosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
-    }
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovering(true);
-    // Prefetch project detail when hovering
-    prefetch(`/api/projects/${project.id}`);
-  };
-  const handleMouseLeave = () => setIsHovering(false);
-
-  const hasWebsite = project.websiteUrl && project.websiteUrl !== '#';
-  const rawImageUrl = project.imageUrl || project.images?.[0]?.url || project.images?.[0]?.imageUrl || '';
+  const rawImageUrl =
+    project.imageUrl || project.images?.[0]?.url || project.images?.[0]?.imageUrl || '';
   const hasImage = rawImageUrl !== '';
-  
-  // Get optimized image URLs for different sizes
-  const displayImage = hasImage ? getOptimizedCloudinaryUrl(rawImageUrl, 800) : '';
-  const displayImageSmall = hasImage ? getOptimizedCloudinaryUrl(rawImageUrl, 400) : '';
+  const displayImage = hasImage ? getOptimizedCloudinaryUrl(rawImageUrl, 600) : '';
+  const hasWebsite = project.websiteUrl && project.websiteUrl !== '#';
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="group"
-    >
-      <div className="relative overflow-hidden rounded-xl bg-card border border-border hover:border-primary/50 transition-all duration-500">
-        {/* Project Image - Always clickable to project detail */}
-        <button 
-          ref={imageContainerRef}
-          onClick={handleImageClick}
-          onMouseMove={handleMouseMove}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-muted to-secondary block w-full cursor-none"
+    <article className="group/card w-[300px] sm:w-[340px] flex-shrink-0">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-xl bg-card border border-border transition-colors duration-300 hover:border-primary/50">
+        {/* Image - clickable to detail */}
+        <button
+          onClick={() => navigate(`/project/${project.id}`)}
+          onMouseEnter={() => prefetch(`/api/projects/${project.id}`)}
+          className="relative block aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-muted to-secondary"
           aria-label={`Zobrazit detail projektu ${project.title}`}
         >
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center will-change-transform"
-            animate={{ scale: isHovering ? 1.1 : 1 }}
-            transition={{ duration: 0.4 }}
-          >
-            <picture>
-              <source
-                media="(max-width: 640px)"
-                srcSet={hasImage ? `${displayImageSmall} 1x, ${displayImage} 2x` : undefined}
-              />
-              <img
-                src={hasImage ? displayImage : ''}
-                alt={`${project.title} - ${project.category}`}
-                width={800}
-                height={500}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-cover"
-                style={{ aspectRatio: '16/10' }}
-              />
-            </picture>
-          </motion.div>
-          
-          {/* Category Badge */}
-          <div className="absolute top-4 left-4 z-10">
-            <span className="px-3 py-1 text-xs font-medium bg-secondary/80 backdrop-blur-md rounded-full text-foreground border border-border">
+          {hasImage ? (
+            <img
+              src={displayImage}
+              alt={`${project.title} - ${project.category}`}
+              width={340}
+              height={213}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+              Bez náhledu
+            </div>
+          )}
+          <div className="absolute top-3 left-3">
+            <span className="rounded-full border border-border bg-secondary/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur-md">
               {project.category}
-            </span>
-          </div>
-
-          {/* Custom Cursor - Arrow follows mouse */}
-          <div 
-            className="absolute pointer-events-none z-20"
-            style={{
-              left: mousePosition.x - 24,
-              top: mousePosition.y - 24,
-              opacity: isHovering ? 1 : 0,
-              transform: `scale(${isHovering ? 1 : 0.5})`,
-              transition: 'opacity 0.15s ease-out, transform 0.15s ease-out',
-            }}
-            aria-hidden="true"
-          >
-            <span className="p-3 bg-white text-black rounded-full flex items-center justify-center shadow-lg">
-              <ArrowUpRight size={20} />
             </span>
           </div>
         </button>
 
         {/* Content */}
-        <div className="p-6">
-          <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
+        <div className="flex flex-1 flex-col p-5">
+          <h3 className="mb-2 line-clamp-1 text-lg font-bold text-foreground transition-colors group-hover/card:text-accent">
             {project.title}
           </h3>
-          <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
+          <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
             {project.description}
           </p>
 
-          {/* Technologies */}
           {project.technologies.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4" role="list" aria-label="Použité technologie">
-              {project.technologies.map((tech) => (
+            <div className="mb-3 flex flex-wrap gap-2" role="list" aria-label="Použité technologie">
+              {project.technologies.slice(0, 4).map((tech) => (
                 <span
                   key={tech}
                   role="listitem"
-                  className="px-2 py-1 text-xs bg-secondary text-foreground rounded border border-border"
+                  className="rounded border border-border bg-secondary px-2 py-1 text-xs text-foreground"
                 >
                   {tech}
                 </span>
               ))}
+              {project.technologies.length > 4 && (
+                <span className="px-2 py-1 text-xs text-muted-foreground">
+                  +{project.technologies.length - 4}
+                </span>
+              )}
             </div>
           )}
 
-          {/* Link */}
           {hasWebsite && (
             <a
               href={project.websiteUrl!}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center text-sm text-foreground hover:text-accent transition-colors group/link"
+              className="mt-auto inline-flex items-center text-sm text-foreground transition-colors hover:text-accent"
               aria-label={`Navštívit web projektu ${project.title}`}
             >
-              <span className="border-b border-transparent group-hover/link:border-accent transition-all">
+              <span className="border-b border-transparent transition-all hover:border-accent">
                 Navštívit web
               </span>
-              <ExternalLink size={14} className="ml-2 group-hover/link:translate-x-1 transition-transform" aria-hidden="true" />
+              <ExternalLink size={14} className="ml-2" aria-hidden="true" />
             </a>
           )}
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 }
 
@@ -178,17 +116,23 @@ export function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     fetchProjects();
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
   }, []);
 
   const fetchProjects = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const data = await fetchWithCache<{success: boolean, data: Project[]}>(
-        '/api/projects'
-      );
-      
+      const data = await fetchWithCache<{ success: boolean; data: Project[] }>('/api/projects');
       if (data.success) {
         setProjects(data.data);
       } else {
@@ -201,14 +145,32 @@ export function Projects() {
     }
   };
 
+  const SectionHeader = (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mx-auto mb-16 max-w-7xl px-4 text-center sm:px-6 lg:px-8"
+    >
+      <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-accent">Portfolio</p>
+      <h2 id="projects-heading" className="mb-6 text-4xl font-bold text-foreground sm:text-5xl">
+        Moje Projekty
+      </h2>
+      <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+        Zde jsou některé z mých nedávných projektů. Každý z nich je unikátní
+        a přizpůsobený potřebám klienta.
+      </p>
+    </motion.div>
+  );
+
   if (loading) {
     return (
-      <section id="projects" className="py-24 bg-background" aria-busy="true" aria-label="Načítání projektů">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-t-4 border-blue-600" role="status">
-              <span className="sr-only">Načítání projektů...</span>
-            </div>
+      <section id="projects" className="bg-background py-24" aria-busy="true" aria-label="Načítání projektů">
+        {SectionHeader}
+        <div className="flex min-h-[300px] items-center justify-center">
+          <div className="h-12 w-12 animate-spin rounded-full border-b-4 border-t-4 border-blue-600" role="status">
+            <span className="sr-only">Načítání projektů...</span>
           </div>
         </div>
       </section>
@@ -217,52 +179,63 @@ export function Projects() {
 
   if (error) {
     return (
-      <section id="projects" className="py-24 bg-background" aria-label="Chyba načítání">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center py-12">
-            <p className="text-red-500 mb-4" role="alert">{error}</p>
-            <button 
-              onClick={fetchProjects}
-              className="text-blue-600 hover:text-blue-800 underline"
-            >
-              Zkusit znovu
-            </button>
-          </div>
+      <section id="projects" className="bg-background py-24" aria-label="Chyba načítání">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <p className="mb-4 text-red-500" role="alert">{error}</p>
+          <button onClick={fetchProjects} className="text-blue-600 underline hover:text-blue-800">
+            Zkusit znovu
+          </button>
         </div>
       </section>
     );
   }
 
-  return (
-    <section id="projects" className="py-24 bg-background" aria-labelledby="projects-heading">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <p className="text-sm font-semibold tracking-widest text-accent uppercase mb-4">
-            Portfolio
-          </p>
-          <h2 id="projects-heading" className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
-            Moje Projekty
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Zde jsou některé z mých nedávných projektů. Každý z nich je unikátní 
-            a přizpůsobený potřebám klienta.
-          </p>
-        </motion.div>
+  // Duration scales with project count so the pace stays roughly constant.
+  const duration = Math.max(24, projects.length * 6);
+  // Duplicate the list so the loop is seamless (track animates to -50%).
+  const loopProjects = [...projects, ...projects];
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+  return (
+    <section
+      id="projects"
+      className="overflow-hidden bg-background py-24"
+      aria-labelledby="projects-heading"
+    >
+      {SectionHeader}
+
+      {reducedMotion ? (
+        // Reduced motion: static, manually scrollable row
+        <div className="flex gap-6 overflow-x-auto px-4 pb-4 sm:px-6 lg:px-8">
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-      </div>
+      ) : (
+        <div
+          className="relative"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          style={{
+            maskImage:
+              'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+          }}
+        >
+          <div
+            className="animate-marquee flex w-max gap-6"
+            style={{
+              // custom props consumed by the .animate-marquee class
+              ['--marquee-duration' as string]: `${duration}s`,
+              animationPlayState: paused ? 'paused' : 'running',
+            }}
+          >
+            {loopProjects.map((project, i) => (
+              <ProjectCard key={`${project.id}-${i}`} project={project} />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
