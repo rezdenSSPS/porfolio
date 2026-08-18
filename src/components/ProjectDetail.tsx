@@ -10,8 +10,11 @@ import { fetchWithCache } from "@/lib/api";
 
 interface ProjectImage {
   id: string;
-  url: string;
-  alt: string | null;
+  // The API returns gallery images with the `imageUrl` field (older code/paths
+  // may use `url`), so both are accepted.
+  imageUrl?: string;
+  url?: string;
+  alt?: string | null;
   order: number;
 }
 
@@ -77,21 +80,25 @@ export function ProjectDetail() {
   const getAllImages = () => {
     if (!project) return [];
     const images: { url: string; alt: string }[] = [];
-    
-    // Add main image first
-    if (project.imageUrl) {
-      images.push({ url: project.imageUrl, alt: project.title });
-    }
-    
-    // Add additional images from gallery
+    const seen = new Set<string>();
+
+    const add = (url: string | undefined | null, alt: string) => {
+      if (!url || seen.has(url)) return;
+      seen.add(url);
+      images.push({ url, alt });
+    };
+
+    // Gallery images first, in order. The API returns them with `imageUrl`.
     if (project.images && project.images.length > 0) {
-      project.images
+      [...project.images]
         .sort((a, b) => a.order - b.order)
-        .forEach(img => {
-          images.push({ url: img.url, alt: img.alt || project.title });
-        });
+        .forEach((img) => add(img.imageUrl || img.url, img.alt || project.title));
     }
-    
+
+    // Include the primary image if it isn't already part of the gallery
+    // (deduped by URL, so no "ghost" duplicate slide).
+    add(project.imageUrl, project.title);
+
     return images;
   };
 

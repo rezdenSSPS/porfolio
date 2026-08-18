@@ -53,10 +53,18 @@ app.get('/projects', async (c) => {
   }
 })
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 app.get('/projects/:id', async (c) => {
   try {
     const id = c.req.param('id')
-    
+
+    // Ids are UUIDs; anything else (e.g. bots hitting /api/projects/admin)
+    // would throw a Postgres cast error, so reject it as a clean 404.
+    if (!UUID_RE.test(id)) {
+      return c.json({ success: false, error: 'Project not found' }, 404)
+    }
+
     const project = await db.query.projects.findFirst({
       where: eq(schema.projects.id, id),
       with: {
