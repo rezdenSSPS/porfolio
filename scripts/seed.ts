@@ -1,141 +1,133 @@
 import 'dotenv/config'
 import { db, schema } from '../api/lib/db.js'
-import { sql } from 'drizzle-orm'
 
 async function seed() {
-  console.log('🌱 Seeding database...\n')
+  console.log('Seeding database...\n')
 
   try {
-    // Clear existing data first
-    console.log('🗑️  Clearing existing data...')
+    console.log('Clearing existing data...')
     await db.delete(schema.projectImages)
     await db.delete(schema.projects)
-    console.log('✅ Existing data cleared\n')
+    console.log('Existing data cleared\n')
 
     // Project 1: Handyman Website
     const handymanProject = await db.insert(schema.projects).values({
       title: 'Hodinový manžel - Kutilské služby',
       category: 'Web Development',
-      description: 'Prezentační web pro poskytovatele kutilských služeb v Ústeckém kraji (Ústí nad Labem, Teplice, Most, Děčín). Komplexní nabídka služeb včetně zednických prací, rekonstrukcí bytů, pokládky podlah, úklidu domácností, údržby zahrad, malířských prací, elektro a instalatérských prací. Web obsahuje katalog služeb, ceník, sekci hodnocení klientů a kontaktní formulář s emailovou integrací přes Resend.',
-      imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop',
-      websiteUrl: 'https://handyman-example.cz',
+      description: 'Prezentační web pro poskytovatele kutilských služeb v Ústeckém kraji. Komplexní nabídka služeb včetně zednických prací, rekonstrukcí bytů, pokládky podlah, údržby zahrad a malířských prací. Web obsahuje katalog služeb, ceník, sekci hodnocení klientů a kontaktní formulář s emailovou integrací.',
+      websiteUrl: '#',
       technologies: ['React', 'TypeScript', 'Vite', 'shadcn-ui', 'Tailwind CSS', 'Express', 'Resend'],
-      aiPrompt: 'Professional product photography of a laptop displaying a handyman services website with tools in background, clean modern design, natural lighting',
       status: 'COMPLETED',
       featured: true,
       order: 1,
     }).returning()
-
-    await db.insert(schema.projectImages).values([
-      {
-        projectId: handymanProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1200&h=800&fit=crop',
-        isPrimary: true,
-        order: 1,
-      },
-      {
-        projectId: handymanProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1200&h=800&fit=crop',
-        isPrimary: false,
-        order: 2,
-      },
-      {
-        projectId: handymanProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1200&h=800&fit=crop',
-        isPrimary: false,
-        order: 3,
-      },
-    ])
-
-    console.log('✅ Handyman project created')
+    console.log('  Handyman project created')
 
     // Project 2: Real Estate Website
     const realEstateProject = await db.insert(schema.projects).values({
       title: 'Vojta Tuturil - Realitní makléř',
       category: 'Web Development',
-      description: 'Profesionální web pro realitního makléře působícího v Praze a Středočeském kraji. Dynamicá databáze nemovitostí s PostgreSQL a Prisma ORM, detailní stránky nabídek včetně mapových podkladů, videoprohlídek a fotogalerií. Integrace Google recenzí, blog, kontaktní formuláře a admin rozhraní pro správu nabídek. SEO optimalizace se structured data pro RealEstateAgent.',
-      imageUrl: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop',
-      websiteUrl: 'https://vojtech-tuturil.cz',
+      description: 'Profesionální web pro realitního makléře v Praze a Středočeském kraji. Dynamická databáze nemovitostí s PostgreSQL, detailní stránky nabídek včetně fotogalerií. Integrace Google recenzí, blog, kontaktní formuláře a admin rozhraní pro správu nabídek.',
+      websiteUrl: '#',
       technologies: ['React', 'TypeScript', 'Vite', 'Prisma', 'PostgreSQL', 'Hono', 'Cloudinary', 'Nodemailer'],
-      aiPrompt: 'Professional product photography of a laptop displaying a luxury real estate website, modern apartment interior in background, elegant lighting',
       status: 'COMPLETED',
       featured: true,
       order: 2,
     }).returning()
-
-    await db.insert(schema.projectImages).values([
-      {
-        projectId: realEstateProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=800&fit=crop',
-        isPrimary: true,
-        order: 1,
-      },
-      {
-        projectId: realEstateProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&h=800&fit=crop',
-        isPrimary: false,
-        order: 2,
-      },
-      {
-        projectId: realEstateProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop',
-        isPrimary: false,
-        order: 3,
-      },
-    ])
-
-    console.log('✅ Real Estate project created')
+    console.log('  Real Estate project created')
 
     // Project 3: Used Car Parts Website
     const carPartsProject = await db.insert(schema.projects).values({
-      title: 'Autíčkadily - Prodej autodílů',
+      title: 'Autíčkadíly - Prodej autodílů',
       category: 'Web Development',
-      description: 'Moderní web pro prodejce náhradních autodílů s osobním přístupem. Poptávkový formulář pro zákazníky, přehled produktů včetně brzdových kotoučů, motorových olejů, vstřikovačů a filtrů. Emailová notifikace přes Resend, rate limiting pomocí Upstash Redis. Na rozdíl od velkých e-shopů osobní komunikace a rychlé vyhledání potřebných dílů za dostupnější ceny než v servisu.',
-      imageUrl: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop',
-      websiteUrl: 'https://autickadily.cz',
+      description: 'Moderní web pro prodejce náhradních autodílů. Poptávkový formulář pro zákazníky, přehled produktů včetně brzdových kotoučů, motorových olejů, vstřikovačů a filtrů. Emailová notifikace přes Resend, rate limiting pomocí Upstash Redis.',
+      websiteUrl: '#',
       technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'shadcn-ui', 'Resend', 'Upstash Redis'],
-      aiPrompt: 'Professional product photography of a laptop displaying an auto parts e-commerce website, car parts and tools in background, industrial lighting',
       status: 'COMPLETED',
       featured: false,
       order: 3,
     }).returning()
+    console.log('  Car Parts project created')
 
-    await db.insert(schema.projectImages).values([
-      {
-        projectId: carPartsProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=800&fit=crop',
-        isPrimary: true,
-        order: 1,
-      },
-      {
-        projectId: carPartsProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1200&h=800&fit=crop',
-        isPrimary: false,
-        order: 2,
-      },
-      {
-        projectId: carPartsProject[0].id,
-        imageUrl: 'https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=1200&h=800&fit=crop',
-        isPrimary: false,
-        order: 3,
-      },
-    ])
+    // Project 4: Sichtovnice (Donna) - Shift Management
+    const sichtovniceProject = await db.insert(schema.projects).values({
+      title: 'Šichtovnice - Správa směn kurýrů',
+      category: 'Webová Aplikace',
+      description: 'Kompletní webová aplikace pro správu směn doručovacích kurýrů. Admin panel s přehledem obsazenosti, správou řidičů, logem změn a fakturačním modulem. Kurýrská verze zobrazuje pouze vlastní směny a dostupnost. Autentizace pomocí JWT, real-time aktualizace dat.',
+      websiteUrl: '#',
+      technologies: ['React', 'TypeScript', 'Vite', 'Express', 'PostgreSQL', 'JWT', 'ExcelJS'],
+      status: 'COMPLETED',
+      featured: true,
+      order: 4,
+    }).returning()
+    console.log('  Sichtovnice project created')
 
-    console.log('✅ Car Parts project created')
+    // Project 5: Sladek (Pivovar) - Brewery Attendance
+    const sladekProject = await db.insert(schema.projects).values({
+      title: 'Sládek - Prokopský pivovar',
+      category: 'Webová Aplikace',
+      description: 'Aplikace pro správu docházky zaměstnanců Prokopského pivovaru. Evidence směn, manuální úpravy docházky, export dat a přehled odpracovaných hodin. Sdílené přihlášení pro pivovar s JWT autentizací. Nasazeno na Railway.',
+      websiteUrl: '#',
+      technologies: ['React', 'TypeScript', 'Express', 'PostgreSQL', 'JWT', 'Railway'],
+      status: 'COMPLETED',
+      featured: false,
+      order: 5,
+    }).returning()
+    console.log('  Sladek project created')
 
-    console.log('\n🎉 Seeding completed successfully!')
+    // Project 6: Auto-Bazar & Aukce
+    const autobazarProject = await db.insert(schema.projects).values({
+      title: 'Auto-Bazar & Aukce',
+      category: 'Web Design',
+      description: 'Prototyp webového portálu pro prodej a dražbu automobilů. Pět propojených stránek včetně domovské stránky, výpisu inzerátů, detailu dražby, formuláře pro přidání inzerátu a kontaktu. Responzivní design s moderním UI.',
+      websiteUrl: '#',
+      technologies: ['HTML', 'Tailwind CSS', 'JavaScript'],
+      status: 'COMPLETED',
+      featured: false,
+      order: 6,
+    }).returning()
+    console.log('  Auto-Bazar project created')
+
+    // Project 7: Football Match Predictor
+    const fotbalProject = await db.insert(schema.projects).values({
+      title: 'Fotbalový prediktor zápasů',
+      category: 'Python / Data Science',
+      description: 'Pokročilý systém pro predikci fotbalových zápasů. Kombinuje statistický model Dixon-Coles (bivariate Poisson) s Elo ratingem a kontextovými faktory (taktika, forma, psychologie, absence). Produkuje pravděpodobnosti 1X2, očekávané góly, nejpravděpodobnější skóre a value bety. Web dashboard přes FastAPI.',
+      websiteUrl: '#',
+      technologies: ['Python', 'FastAPI', 'SQLAlchemy', 'NumPy', 'Pandas', 'SciPy', 'PostgreSQL'],
+      status: 'COMPLETED',
+      featured: false,
+      order: 7,
+    }).returning()
+    console.log('  Football Predictor project created')
+
+    // Project 8: JPN Faktury - Invoice Automation
+    const fakturyProject = await db.insert(schema.projects).values({
+      title: 'JPN Faktury - Automatizace fakturace',
+      category: 'Automatizace',
+      description: 'Python automatizační skripty pro generování a odesílání faktur restauračním partnerům. Hromadné zpracování faktur z Excel dat, automatické odesílání emailem a evidence v CSV logu. Zpracovává desítky restaurací měsíčně.',
+      websiteUrl: '#',
+      technologies: ['Python', 'Excel', 'Email automation', 'CSV'],
+      status: 'COMPLETED',
+      featured: false,
+      order: 8,
+    }).returning()
+    console.log('  JPN Faktury project created')
+
+    console.log('\nSeeding completed successfully!')
     console.log('\nProjects added:')
-    console.log('  1. Hodinový manžel - Kutilské služby (Handyman)')
-    console.log('  2. Realitní makléř Vojta Tuturil (Real Estate)')
-    console.log('  3. Autíčkadily - Prodej autodílů (Car Parts)')
-    console.log('\n📸 All projects now use placeholder images from Unsplash')
-    console.log('   To use your own images:')
-    console.log('   1. Upload photos to Cloudinary')
-    console.log('   2. Go to admin panel: https://www.reznicek.xyz/#/admin')
-    console.log('   3. Edit each project and update image URLs')
+    console.log('  1. Hodinovy manzel - Kutilske sluzby')
+    console.log('  2. Vojta Tuturil - Realitni makler')
+    console.log('  3. Autickadily - Prodej autodilu')
+    console.log('  4. Sichtovnice - Sprava smen kururu')
+    console.log('  5. Sladek - Prokopsky pivovar')
+    console.log('  6. Auto-Bazar & Aukce')
+    console.log('  7. Fotbalovy prediktor zapasu')
+    console.log('  8. JPN Faktury - Automatizace fakturace')
+    console.log('\nAdd images via the admin panel at /admin')
 
   } catch (error) {
-    console.error('❌ Seeding failed:', error)
+    console.error('Seeding failed:', error)
     process.exit(1)
   }
 

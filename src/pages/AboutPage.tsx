@@ -40,7 +40,7 @@ export function AboutPage() {
             <div className="flex justify-center mb-12">
               <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-border shadow-lg">
                 <img
-                  src="https://res.cloudinary.com/dg3rfqbvz/image/upload/v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb.jpg"
+                  src="/denis.jpg"
                   alt="Denis Řezníček - Web Designer & Developer"
                   className="w-full h-full object-cover"
                 />

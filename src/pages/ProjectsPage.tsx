@@ -73,7 +73,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             transition={{ duration: 0.4 }}
           >
             <img
-              src={hasImage ? displayImage : 'https://via.placeholder.com/800x500?text=No+Image'}
+              src={hasImage ? displayImage : ''}
               alt={project.title}
               className="w-full h-full object-cover"
             />
@@ -130,7 +130,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               className="inline-flex items-center text-sm text-foreground hover:text-accent transition-colors group/link"
             >
               <span className="border-b border-transparent group-hover/link:border-accent transition-all">
-                Navstivit web
+                Navštívit web
               </span>
               <ExternalLink size={14} className="ml-2 group-hover/link:translate-x-1 transition-transform" />
             </a>

@@ -1,5 +1,3 @@
-import type { Project } from './data';
-
 interface CacheItem<T> {
   data: T;
   timestamp: number;
@@ -38,4 +36,3 @@ export function prefetch(url: string) {
   });
 }
 
-export type { Project };

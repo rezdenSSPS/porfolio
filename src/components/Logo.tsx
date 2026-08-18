@@ -6,9 +6,8 @@ interface LogoProps {
   height?: number;
 }
 
-// Cloudinary URLs with optimization - logos uploaded successfully
-const LIGHT_LOGO_URL = "https://res.cloudinary.com/dg3rfqbvz/image/upload/f_auto,q_auto/v1770833911/portfolio/logos/logo-light.png"; // Black text, for light backgrounds
-const DARK_LOGO_URL = "https://res.cloudinary.com/dg3rfqbvz/image/upload/f_auto,q_auto/v1770833912/portfolio/logos/logo-dark.png";   // White text, for dark backgrounds
+const LIGHT_LOGO_URL = "/logo-light.png"; // Black text, for light backgrounds
+const DARK_LOGO_URL = "/logo-dark.png";   // White text, for dark backgrounds
 
 export function Logo({ className = "", height = 120 }: LogoProps) {
   const { theme } = useTheme();

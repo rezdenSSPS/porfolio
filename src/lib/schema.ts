@@ -64,13 +64,14 @@ export const organizationData: OrganizationSchema = {
   },
   sameAs: [
     'https://www.linkedin.com/in/denis-řezníček-151b6a3ab',
+    'https://github.com/rezdenSSPS',
   ],
 };
 
 export const personData: PersonSchema = {
   name: 'Denis Řezníček',
   url: SITE_URL,
-  image: 'https://res.cloudinary.com/dg3rfqbvz/image/upload/v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb.jpg',
+  image: `${SITE_URL}/denis.jpg`,
   jobTitle: 'Web Designer & Developer',
   description: 'Tvorce moderních webových stránek a aplikací. Specializace na React, Next.js a TypeScript.',
   email: 'denis@reznicek.xyz',
@@ -81,6 +82,7 @@ export const personData: PersonSchema = {
   },
   sameAs: [
     'https://www.linkedin.com/in/denis-řezníček-151b6a3ab',
+    'https://github.com/rezdenSSPS',
   ],
 };
 

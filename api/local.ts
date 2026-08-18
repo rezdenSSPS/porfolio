@@ -87,6 +87,28 @@ app.get('/', (c) => {
   })
 })
 
+// GET /api/images/:id - serve a binary image stored in the database
+app.get('/images/:id', async (c) => {
+  try {
+    const id = c.req.param('id')
+    const image = await db.query.images.findFirst({
+      where: eq(schema.images.id, id),
+    })
+
+    if (!image) {
+      return c.json({ success: false, error: 'Image not found' }, 404)
+    }
+
+    const buffer = Buffer.from(image.data, 'base64')
+    c.header('Content-Type', image.mimeType)
+    c.header('Cache-Control', 'public, max-age=31536000, immutable')
+    return c.body(buffer)
+  } catch (error) {
+    console.error('Error serving image:', error)
+    return c.json({ success: false, error: 'Failed to serve image' }, 500)
+  }
+})
+
 // Contact form
 app.post('/contact', async (c) => {
   try {
@@ -324,7 +346,7 @@ app.patch('/admin/projects/:id/featured', async (c) => {
   })
 })
 
-// POST /api/admin/upload/images - Upload images
+// POST /api/admin/upload/images - Store uploaded images in the database
 app.post('/admin/upload/images', async (c) => {
   if (!checkAuth(c)) {
     return c.json({ success: false, error: 'Unauthorized' }, 401)
@@ -333,7 +355,7 @@ app.post('/admin/upload/images', async (c) => {
   try {
     const formData = await c.req.formData()
     const files = formData.getAll('files')
-    
+
     if (!files || files.length === 0) {
       return c.json({ success: false, error: 'No files uploaded' }, 400)
     }
@@ -343,41 +365,18 @@ app.post('/admin/upload/images', async (c) => {
     for (const file of files) {
       if (file instanceof File) {
         const arrayBuffer = await file.arrayBuffer()
-        const buffer = Buffer.from(arrayBuffer)
-        
-        const base64 = buffer.toString('base64')
+        const base64 = Buffer.from(arrayBuffer).toString('base64')
         const mimeType = file.type || 'image/jpeg'
-        const dataUri = `data:${mimeType};base64,${base64}`
 
-        const cloudName = process.env.CLOUDINARY_CLOUD_NAME
-        const apiKey = process.env.CLOUDINARY_API_KEY
-        const apiSecret = process.env.CLOUDINARY_API_SECRET
+        const inserted = await db.insert(schema.images).values({
+          data: base64,
+          mimeType,
+        }).returning({ id: schema.images.id })
 
-        if (!cloudName || !apiKey || !apiSecret) {
-          return c.json({ success: false, error: 'Cloudinary not configured' }, 500)
-        }
-
-        const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`
-        
-        const formData = new FormData()
-        formData.append('file', dataUri)
-        formData.append('upload_preset', 'portfolio-upload')
-
-        const response = await fetch(uploadUrl, {
-          method: 'POST',
-          body: formData
-        })
-
-        if (!response.ok) {
-          const error = await response.text()
-          console.error('Cloudinary upload failed:', error)
-          continue
-        }
-
-        const result = await response.json() as { secure_url: string; public_id: string }
+        const id = inserted[0].id
         uploadedImages.push({
-          url: result.secure_url,
-          publicId: result.public_id
+          url: `/api/images/${id}`,
+          publicId: id,
         })
       }
     }

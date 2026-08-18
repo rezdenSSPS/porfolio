@@ -46,6 +46,15 @@ export const projects = pgTable('projects', {
   ),
 }))
 
+// Binary image storage (replaces Cloudinary). Stores base64-encoded image data
+// directly in Postgres; served via GET /api/images/:id.
+export const images = pgTable('images', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  data: text('data').notNull(),
+  mimeType: varchar('mime_type', { length: 100 }).notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
 // Project Images table
 export const projectImages = pgTable('project_images', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -77,3 +86,5 @@ export type Project = typeof projects.$inferSelect
 export type NewProject = typeof projects.$inferInsert
 export type ProjectImage = typeof projectImages.$inferSelect
 export type NewProjectImage = typeof projectImages.$inferInsert
+export type Image = typeof images.$inferSelect
+export type NewImage = typeof images.$inferInsert

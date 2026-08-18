@@ -39,7 +39,7 @@ const services = [
       "Analýza potřeb",
       "Individuální návrh",
       "Škálovatelné řešení",
-      "Dlhodobá spolupráce",
+      "Dlouhodobá spolupráce",
       "Technická podpora",
       "Rozšíření funkcí",
     ],

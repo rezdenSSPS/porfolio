@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import { Code, Palette, Rocket, Users, Zap, Globe } from "lucide-react";
 
-// Cloudinary optimized image URL
-const aboutImageBase = "https://res.cloudinary.com/dg3rfqbvz/image/upload";
-const aboutImageId = "v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb";
-const getOptimizedImageUrl = (width: number) => 
-  `${aboutImageBase}/f_auto,q_auto,w_${width}/${aboutImageId}.jpg`;
+const ABOUT_IMAGE = "/denis.jpg";
 
 const skills = [
   {
@@ -60,23 +56,16 @@ export function About() {
               <span className="text-accent"> digitální úspěch</span>
             </h2>
             <div className="mb-8 rounded-xl overflow-hidden shadow-lg">
-              <picture>
-                <source
-                  media="(max-width: 640px)"
-                  srcSet={`${getOptimizedImageUrl(400)} 1x, ${getOptimizedImageUrl(800)} 2x`}
-                />
-                <img
-                  src={getOptimizedImageUrl(600)}
-                  srcSet={`${getOptimizedImageUrl(600)} 1x, ${getOptimizedImageUrl(1200)} 2x`}
-                  alt="Denis Řezníček - Web Designer & Developer"
-                  width={600}
-                  height={320}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-64 sm:h-80 object-cover"
-                  style={{ aspectRatio: '600/320' }}
-                />
-              </picture>
+              <img
+                src={ABOUT_IMAGE}
+                alt="Denis Řezníček - Web Designer & Developer"
+                width={600}
+                height={320}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-64 sm:h-80 object-cover"
+                style={{ aspectRatio: '600/320' }}
+              />
             </div>
             <div className="space-y-6 text-muted-foreground leading-relaxed">
               <p>

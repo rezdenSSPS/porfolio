@@ -157,7 +157,7 @@ export function ProjectDetail() {
             className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors group"
           >
             <ArrowLeft size={20} className="mr-2 group-hover:-translate-x-1 transition-transform" />
-            <span>Zpet na projekty</span>
+            <span>Zpět na projekty</span>
           </motion.button>
         </div>
 
@@ -266,7 +266,7 @@ export function ProjectDetail() {
               {project.technologies.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-sm font-semibold text-accent uppercase tracking-wider mb-4">
-                    Pouzite technologie
+                    Použité technologie
                   </h3>
                   <div className="flex flex-wrap gap-3">
                     {project.technologies.map((tech) => (
@@ -294,10 +294,10 @@ export function ProjectDetail() {
                 {hasWebsite && (
                   <div className="bg-card rounded-xl p-6 border border-border">
                     <h3 className="text-lg font-semibold text-foreground mb-4">
-                      Navstivit web
+                      Navštívit web
                     </h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Prohlednete si projekt v akci na zivem webu.
+                      Prohlédněte si projekt v akci na živém webu.
                     </p>
                     <a
                       href={project.websiteUrl!}
@@ -305,7 +305,7 @@ export function ProjectDetail() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center w-full px-6 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
                     >
-                      Navstivit web
+                      Navštívit web
                       <ExternalLink size={16} className="ml-2" />
                     </a>
                   </div>
@@ -323,7 +323,7 @@ export function ProjectDetail() {
                     </div>
                     {project.technologies.length > 0 && (
                       <div>
-                        <dt className="text-sm text-muted-foreground">Pocet technologii</dt>
+                        <dt className="text-sm text-muted-foreground">Počet technologií</dt>
                         <dd className="text-foreground font-medium">{project.technologies.length}</dd>
                       </div>
                     )}

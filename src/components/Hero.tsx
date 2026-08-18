@@ -5,11 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { SEO } from "./SEO";
 
-// Cloudinary optimized image URLs with responsive sizes
-const heroImageBase = "https://res.cloudinary.com/dg3rfqbvz/image/upload";
-const heroImageId = "v1771188351/WhatsApp_Image_2026-02-11_at_20.10.21_egqihb";
-const getOptimizedImageUrl = (width: number) => 
-  `${heroImageBase}/f_auto,q_auto,w_${width}/${heroImageId}.jpg`;
+const HERO_IMAGE = "/denis.jpg";
 
 export function Hero() {
   const navigate = useNavigate();
@@ -144,7 +140,18 @@ export function Hero() {
               variants={itemVariants}
               className="flex gap-12 pt-8 border-t border-border"
             >
-
+              <div>
+                <p className="text-3xl font-bold text-foreground">8+</p>
+                <p className="text-sm text-muted-foreground">Projektů</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-foreground">5+</p>
+                <p className="text-sm text-muted-foreground">Spokojených klientů</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-foreground">1+</p>
+                <p className="text-sm text-muted-foreground">Let zkušeností</p>
+              </div>
             </motion.div>
           </motion.div>
 
@@ -168,30 +175,19 @@ export function Hero() {
                 onMouseLeave={handleMouseLeave}
                 className="relative z-10 w-full max-w-md aspect-[3/4] rounded-[var(--radius)] overflow-hidden bg-secondary cursor-none"
               >
-                <picture>
-                  <source
-                    media="(max-width: 640px)"
-                    srcSet={`${getOptimizedImageUrl(300)} 1x, ${getOptimizedImageUrl(600)} 2x`}
-                  />
-                  <source
-                    media="(max-width: 1024px)"
-                    srcSet={`${getOptimizedImageUrl(400)} 1x, ${getOptimizedImageUrl(800)} 2x`}
-                  />
-                  <motion.img
-                    src={getOptimizedImageUrl(400)}
-                    srcSet={`${getOptimizedImageUrl(400)} 1x, ${getOptimizedImageUrl(800)} 2x`}
-                    alt="Denis Řezníček - Profesionální web designer a developer z Prahy"
-                    width={400}
-                    height={533}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                    style={{ contentVisibility: 'auto' }}
-                    animate={{ scale: isHovering ? 1.1 : 1 }}
-                    transition={{ duration: 0.4 }}
-                  />
-                </picture>
+                <motion.img
+                  src={HERO_IMAGE}
+                  alt="Denis Řezníček - Profesionální web designer a developer z Prahy"
+                  width={400}
+                  height={533}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                  style={{ contentVisibility: 'auto' }}
+                  animate={{ scale: isHovering ? 1.1 : 1 }}
+                  transition={{ duration: 0.4 }}
+                />
 
 
                 {/* Overlay gradient */}

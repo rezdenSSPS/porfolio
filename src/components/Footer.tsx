@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Instagram, Linkedin, Github } from "lucide-react";
+import { Heart, Linkedin, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 
@@ -15,7 +15,6 @@ export function Footer() {
   ];
 
   const socialLinks = [
-    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/denis-řezníček-151b6a3ab", label: "LinkedIn" },
     { icon: Github, href: "https://github.com/rezdenSSPS", label: "GitHub" },
   ];
@@ -77,7 +76,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            {currentYear} Řezníček Denis Všechna práva vyhrazena.
+            {currentYear} Denis Řezníček. Všechna práva vyhrazena.
           </p>
           <nav className="flex flex-wrap justify-center gap-4 text-sm" aria-label="Právní dokumenty">
             <a href="/zasady-ochrany-osobnich-udaju.html" className="text-muted-foreground hover:text-foreground transition-colors">

@@ -92,7 +92,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 srcSet={hasImage ? `${displayImageSmall} 1x, ${displayImage} 2x` : undefined}
               />
               <img
-                src={hasImage ? displayImage : 'https://via.placeholder.com/800x500?text=No+Image'}
+                src={hasImage ? displayImage : ''}
                 alt={`${project.title} - ${project.category}`}
                 width={800}
                 height={500}
@@ -163,7 +163,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               aria-label={`Navštívit web projektu ${project.title}`}
             >
               <span className="border-b border-transparent group-hover/link:border-accent transition-all">
-                Navstivit web
+                Navštívit web
               </span>
               <ExternalLink size={14} className="ml-2 group-hover/link:translate-x-1 transition-transform" aria-hidden="true" />
             </a>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, Github, Menu, X } from "lucide-react";
+import { Linkedin, Github, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
@@ -67,17 +67,6 @@ export function Navbar() {
 
             {/* Social Icons */}
             <div className="flex items-center space-x-4">
-              <motion.a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label="Navštívit Instagram profil"
-              >
-                <Instagram size={18} aria-hidden="true" />
-              </motion.a>
               <motion.a
                 href="https://www.linkedin.com/in/denis-řezníček-151b6a3ab"
                 target="_blank"
@@ -156,16 +145,6 @@ export function Navbar() {
             </div>
             
             <div className="flex space-x-4 pt-4">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground"
-                aria-label="Navštívit Instagram profil"
-                tabIndex={isOpen ? 0 : -1}
-              >
-                <Instagram size={20} aria-hidden="true" />
-              </a>
               <a
                 href="https://www.linkedin.com/in/denis-řezníček-151b6a3ab"
                 target="_blank"
