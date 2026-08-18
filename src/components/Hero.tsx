@@ -141,16 +141,16 @@ export function Hero() {
               className="flex gap-12 pt-8 border-t border-border"
             >
               <div>
-                <p className="text-3xl font-bold text-foreground">8+</p>
+                <p className="text-3xl font-bold text-foreground">10+</p>
                 <p className="text-sm text-muted-foreground">Projektů</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-foreground">5+</p>
+                <p className="text-3xl font-bold text-foreground">7+</p>
                 <p className="text-sm text-muted-foreground">Spokojených klientů</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-foreground">1+</p>
-                <p className="text-sm text-muted-foreground">Let zkušeností</p>
+                <p className="text-3xl font-bold text-foreground">3</p>
+                <p className="text-sm text-muted-foreground">Roky zkušeností</p>
               </div>
             </motion.div>
           </motion.div>
