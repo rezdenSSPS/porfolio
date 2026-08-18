@@ -423,7 +423,7 @@ function AdminDashboard() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Website URL
+                    Website URL <span className="text-gray-400 font-normal">(nepovinné – u lokálních skriptů nechte prázdné)</span>
                   </label>
                   <input
                     type="url"
@@ -431,7 +431,7 @@ function AdminDashboard() {
                     value={formData.websiteUrl}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-900"
-                    placeholder="https://example.com"
+                    placeholder="https://example.com (volitelné)"
                   />
                 </div>
 
