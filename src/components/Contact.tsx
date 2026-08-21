@@ -13,9 +13,18 @@ export function Contact() {
   });
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [formError, setFormError] = useState('');
+  // Honeypot: skryté pole, které vyplní jen boti. Lidé ho nevidí.
+  const [honeypot, setHoneypot] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Bot vyplnil skryté pole – tvařme se jako úspěch, ale nic neodesílejme.
+    if (honeypot) {
+      setFormStatus('success');
+      return;
+    }
+
     setFormStatus('sending');
     setFormError('');
 
@@ -175,6 +184,20 @@ export function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot – skryté pole proti spam botům. Nezobrazuje se uživatelům. */}
+                <div className="absolute left-[-9999px]" aria-hidden="true">
+                  <label htmlFor="website">Nevyplňujte toto pole</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-muted-foreground mb-2">
                     Jméno a příjmení *

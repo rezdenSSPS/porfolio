@@ -4,7 +4,9 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
 import { About } from "@/components/About";
+import { Process } from "@/components/Process";
 import { Services } from "@/components/Services";
+import { Testimonials } from "@/components/Testimonials";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -44,7 +46,9 @@ function HomePage() {
         <Hero />
         <Projects />
         <About />
+        <Process />
         <Services />
+        <Testimonials />
         <Contact />
       </main>
       <Footer />

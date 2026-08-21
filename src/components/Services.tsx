@@ -15,6 +15,7 @@ const services = [
       "Integrace API",
       "App Store publikování",
     ],
+    price: "od 25 000 Kč",
     popular: false,
     link: "/poptavka/app",
   },
@@ -29,6 +30,7 @@ const services = [
       "Rychlé načítání",
       "Podpora a údržba",
     ],
+    price: "od 8 000 Kč",
     popular: true,
     link: "/poptavka/web",
   },
@@ -43,6 +45,7 @@ const services = [
       "Technická podpora",
       "Rozšíření funkcí",
     ],
+    price: "Cena na míru",
     popular: false,
     link: "/poptavka/custom",
   },
@@ -96,7 +99,11 @@ export function Services() {
               )}
 
               <h3 className="text-xl font-bold text-foreground mb-2">{service.title}</h3>
-              <p className="text-muted-foreground text-sm mb-6">{service.description}</p>
+              <p className="text-muted-foreground text-sm mb-4">{service.description}</p>
+
+              <div className="mb-6 pb-6 border-b border-border">
+                <span className="text-2xl font-bold text-foreground">{service.price}</span>
+              </div>
 
               <ul className="space-y-3 mb-8">
                 {service.features.map((feature) => (
