@@ -87,55 +87,6 @@ export function About() {
                 dílo, které splní očekávání.
               </p>
             </div>
-
-            {/* Experience Bar */}
-            <div className="mt-8 space-y-4">
-              <div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-foreground font-medium">Frontend Development</span>
-                  <span className="text-muted-foreground">95%</span>
-                </div>
-                <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 will-change-transform"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "95%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.2 }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-foreground font-medium">UI/UX Design</span>
-                  <span className="text-muted-foreground">85%</span>
-                </div>
-                <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 will-change-transform"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "85%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.4 }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-foreground font-medium">Backend & API</span>
-                  <span className="text-muted-foreground">75%</span>
-                </div>
-                <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 will-change-transform"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "75%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.6 }}
-                  />
-                </div>
-              </div>
-            </div>
           </motion.div>
 
           {/* Right Content - Skills Grid */}

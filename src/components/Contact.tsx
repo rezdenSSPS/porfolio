@@ -181,6 +181,9 @@ export function Contact() {
                   </label>
                   <input
                     type="text"
+                    name="name"
+                    id="contact-name"
+                    autoComplete="name"
                     value={formData.name}
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
@@ -198,6 +201,9 @@ export function Contact() {
                     </label>
                     <input
                       type="tel"
+                      name="phone"
+                      id="contact-phone"
+                      autoComplete="tel"
                       value={formData.phone}
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
@@ -213,6 +219,9 @@ export function Contact() {
                     </label>
                     <input
                       type="email"
+                      name="email"
+                      id="contact-email"
+                      autoComplete="email"
                       value={formData.email}
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
@@ -230,6 +239,9 @@ export function Contact() {
                   </label>
                   <input
                     type="text"
+                    name="subject"
+                    id="contact-subject"
+                    autoComplete="off"
                     value={formData.subject}
                     onChange={(e) =>
                       setFormData({ ...formData, subject: e.target.value })
@@ -245,6 +257,8 @@ export function Contact() {
                     Zpráva
                   </label>
                   <textarea
+                    name="message"
+                    id="contact-message"
                     value={formData.message}
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })

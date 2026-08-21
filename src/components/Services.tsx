@@ -83,7 +83,7 @@ export function Services() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`relative rounded-2xl border transition-all duration-300 flex flex-col ${
                 service.popular
-                  ? "p-10 md:p-12 bg-gradient-to-b from-accent/20 to-accent/10 border-accent"
+                  ? "px-10 md:px-12 pt-10 md:pt-12 pb-8 bg-gradient-to-b from-accent/20 to-accent/10 border-accent"
                   : "p-8 bg-secondary/50 border-border hover:border-accent/50"
               }`}
             >
@@ -107,7 +107,7 @@ export function Services() {
                 ))}
               </ul>
 
-              <Link to={service.link} className="w-full">
+              <Link to={service.link} className="w-full mt-auto">
                 <Button
                   className={`w-full ${
                     service.popular
