@@ -30,6 +30,8 @@ interface ResendPayload {
   // HTML-only messages are far more likely to be flagged as spam.
   text: string;
   reply_to?: string;
+  // Extra SMTP headers (e.g. List-Unsubscribe) forwarded verbatim by Resend.
+  headers?: Record<string, string>;
 }
 
 // Send an email through the Resend HTTP API.
@@ -282,6 +284,12 @@ export const handleContactForm = async (data: ContactFormData) => {
     subject: 'Potvrzení přijetí zprávy | Denis Řezníček',
     html: buildCustomerConfirmation(data),
     text: buildCustomerConfirmationText(data),
+    // One-click unsubscribe – required signal for Gmail/Yahoo bulk rules (2024)
+    // and expected by spam filters. Improves inbox placement.
+    headers: {
+      'List-Unsubscribe': '<mailto:denis@reznicek.xyz?subject=Odhl%C3%A1sit>',
+      'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+    },
   });
 
   return { success: true, message: 'Zpráva byla úspěšně odeslána' };
