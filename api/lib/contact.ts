@@ -8,7 +8,7 @@ interface ContactFormData {
 
 // Sender + recipient are configurable; sender must be on a Resend-verified
 // domain (reznicek.xyz is verified via the resend._domainkey DNS records).
-const FROM_ADDRESS = process.env.RESEND_FROM || 'Denis Řezníček <kontakt@reznicek.xyz>';
+const FROM_ADDRESS = process.env.RESEND_FROM || 'Denis Řezníček <denis@reznicek.xyz>';
 const OWNER_ADDRESS = process.env.CONTACT_TO || 'denis@reznicek.xyz';
 const LOGO_URL = 'https://reznicek.xyz/logo-light.png';
 
@@ -26,6 +26,9 @@ interface ResendPayload {
   to: string;
   subject: string;
   html: string;
+  // Plain-text alternative. Including it markedly improves deliverability –
+  // HTML-only messages are far more likely to be flagged as spam.
+  text: string;
   reply_to?: string;
 }
 
@@ -220,6 +223,36 @@ const buildOwnerNotification = (data: ContactFormData): string => `
     </html>
   `;
 
+// Plain-text version of the visitor confirmation.
+const buildCustomerConfirmationText = (data: ContactFormData): string =>
+  `Dobrý den ${data.name},
+
+děkuji za Váš zájem a zprávu. Vaši poptávku jsem obdržel a ozvu se Vám co nejdříve, obvykle do 24 hodin.
+
+Přímý kontakt:
+E-mail: denis@reznicek.xyz
+Telefon: +420 776 523 655
+
+Těším se na naši spolupráci!
+
+Denis Řezníček
+Web & Mobile Developer
+https://reznicek.xyz`;
+
+// Plain-text version of the owner notification.
+const buildOwnerNotificationText = (data: ContactFormData): string =>
+  `Nová zpráva z portfolia
+
+Jméno a příjmení: ${data.name}
+Telefon: ${data.phone}
+Email: ${data.email}
+Předmět: ${data.subject}
+
+Zpráva:
+${data.message}
+
+Čas odeslání: ${new Date().toLocaleString('cs-CZ')}`;
+
 export const handleContactForm = async (data: ContactFormData) => {
   // Validate required fields
   if (!data.name || !data.phone || !data.email || !data.subject || !data.message) {
@@ -239,6 +272,7 @@ export const handleContactForm = async (data: ContactFormData) => {
     reply_to: data.email,
     subject: `Nová zpráva - ${data.name} | ${data.subject}`,
     html: buildOwnerNotification(data),
+    text: buildOwnerNotificationText(data),
   });
 
   await sendViaResend({
@@ -247,6 +281,7 @@ export const handleContactForm = async (data: ContactFormData) => {
     reply_to: OWNER_ADDRESS,
     subject: 'Potvrzení přijetí zprávy | Denis Řezníček',
     html: buildCustomerConfirmation(data),
+    text: buildCustomerConfirmationText(data),
   });
 
   return { success: true, message: 'Zpráva byla úspěšně odeslána' };
